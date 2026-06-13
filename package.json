@@ -1,0 +1,24 @@
+{
+  "name": "analytics-reports",
+  "version": "0.1.0",
+  "description": "Генератор аналитических отчётов агентства: кабинет под паролём + публичные read-only отчёты по ссылке",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "hash": "node scripts/hash-password.js",
+    "seed": "node scripts/seed.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.10.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

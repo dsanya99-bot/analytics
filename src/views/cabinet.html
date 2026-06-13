@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Мои отчёты • Кабинет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/admin.css">
+<style>
+  .head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:28px 0 20px;}
+  .head-row h1{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:0;}
+  .summary{color:var(--text-dim);font-size:13.5px;margin-top:6px;}
+  .summary b{color:var(--text);}
+  .search{position:relative;min-width:240px;}
+  .search input{padding-left:36px;}
+  .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-mute);pointer-events:none;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(335px,1fr));gap:16px;}
+  .rcard{padding:0;display:flex;flex-direction:column;transition:transform .22s ease,border-color .22s ease;}
+  .rcard:hover{transform:translateY(-3px);}
+  .rcard .rc-bar{height:3px;width:100%;}
+  .rcard .body{padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;flex:1;}
+  .rc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .rc-name{font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
+  .rc-title{font-size:12.5px;color:var(--text-dim);margin-top:2px;}
+  .rc-url{font-size:12.5px;color:var(--text-mute);word-break:break-all;}
+  .rc-chips{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .rc-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;margin-top:2px;}
+  .rc-date{font-size:11.5px;color:var(--text-mute);}
+  .rc-actions{display:flex;gap:6px;flex-wrap:wrap;}
+  .empty{grid-column:1/-1;text-align:center;padding:64px 0;color:var(--text-dim);}
+  .empty .big{font-size:18px;color:var(--text);font-weight:600;margin-bottom:6px;}
+  .loading{grid-column:1/-1;display:flex;justify-content:center;padding:60px 0;}
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#07090d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 5-7"/></svg></span>
+        <span class="grad">Отчёты</span>&nbsp;<span class="muted">агентства</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary" id="btn-new">＋ Новый отчёт</button>
+        <button class="btn" id="btn-logout">Выйти</button>
+      </div>
+    </div>
+  </header>
+  <main class="container" style="padding-bottom:64px;">
+    <div class="head-row">
+      <div>
+        <h1>Мои отчёты</h1>
+        <div class="summary" id="summary">Загрузка…</div>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="search" type="search" placeholder="Поиск по клиенту или сайту…" autocomplete="off" />
+      </div>
+    </div>
+    <div id="reports" class="grid">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script src="/assets/cabinet.js"></script>
+</body>
+</html>

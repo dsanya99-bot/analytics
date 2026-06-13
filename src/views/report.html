@@ -1,0 +1,1718 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Финансовая модель SEO-продвижения • platipomiru.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="/assets/engine.js"></script>
+<style>
+:root{
+  --bg-0:#07090d;
+  --bg-1:#0c1117;
+  --bg-2:#11161f;
+  --bg-3:#171d28;
+  --line:rgba(255,255,255,.07);
+  --line-2:rgba(255,255,255,.14);
+  --text:#e7ecf3;
+  --text-dim:#94a0b3;
+  --text-mute:#5b6678;
+  --accent:#4ade80;
+  --accent-2:#22d3ee;
+  --warn:#fbbf24;
+  --danger:#f87171;
+
+  /* scenario palette: серый → зелёный по агрессивности */
+  --s-start:#8a96aa;       /* стартовый — нейтральный */
+  --s-cons:#5eead4;        /* консервативный — мятный */
+  --s-bal:#34d399;         /* сбалансированный — зелёный */
+  --s-agg:#a3e635;         /* агрессивный — ярко-лаймовый */
+
+  --s-start-soft:rgba(138,150,170,.18);
+  --s-cons-soft:rgba(94,234,212,.16);
+  --s-bal-soft:rgba(52,211,153,.18);
+  --s-agg-soft:rgba(163,230,53,.20);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:var(--bg-0);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+html{overflow-x:clip;}
+body{
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(74,222,128,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(34,211,238,.08), transparent 60%),
+    radial-gradient(900px 700px at 50% 110%, rgba(163,230,53,.08), transparent 60%),
+    var(--bg-0);
+  min-height:100vh;
+}
+.container{max-width:1280px;margin:0 auto;padding:0 28px;}
+@media (max-width: 700px){ .container{padding:0 16px;} }
+
+/* ===== Header ===== */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:saturate(140%) blur(14px);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  background:rgba(7,9,13,.65);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;}
+.brand{display:flex;align-items:center;gap:14px;color:var(--text);}
+.brand-logo{height:30px;display:flex;align-items:center;}
+.brand-logo svg{height:30px;width:auto;}
+.brand-logo svg path{fill:currentColor;}
+.brand-divider{width:1px;height:24px;background:var(--line-2);}
+.brand-client{font-size:13px;color:var(--text-dim);letter-spacing:.02em;}
+.brand-client b{color:var(--text);font-weight:600;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:10px;border:1px solid var(--line-2);
+  background:transparent;color:var(--text);font-size:13px;font-weight:500;
+  cursor:pointer;transition:all .2s ease;font-family:inherit;
+}
+.btn:hover{background:var(--bg-3);border-color:rgba(255,255,255,.25);}
+.btn-primary{background:linear-gradient(135deg,#4ade80,#22d3ee);color:#07090d;border:none;font-weight:600;}
+.btn-primary:hover{background:linear-gradient(135deg,#4ade80,#22d3ee);filter:brightness(1.08);transform:translateY(-1px);}
+.btn .ico{width:16px;height:16px;display:inline-flex;}
+
+/* ===== Hero ===== */
+.hero{padding:60px 0 24px;position:relative;}
+.kpi-section{padding:22px 0 36px;}
+.scenario-stick{
+  position:sticky;top:60px;z-index:40;
+  padding:14px 0 16px;
+  background:rgba(7,9,13,.78);
+  backdrop-filter:saturate(140%) blur(14px);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-dim);
+  padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line-2);
+  background:rgba(255,255,255,.02);
+}
+.eyebrow .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 0 4px rgba(74,222,128,.18);}
+.h1{
+  font-size:clamp(34px,5vw,58px);font-weight:800;letter-spacing:-.02em;
+  line-height:1.05;margin:18px 0 14px;
+}
+.h1 .grad{background:linear-gradient(135deg,#4ade80 0%,#22d3ee 50%,#a3e635 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.h1-sub{color:var(--text-dim);font-size:17px;max-width:720px;line-height:1.55;}
+
+/* Scenario tabs */
+.scenario-bar{
+  display:flex;flex-wrap:wrap;gap:10px;
+  padding:10px;border:1px solid var(--line);
+  background:rgba(12,17,23,.92);
+  border-radius:18px;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+.tab{
+  position:relative;flex:1;min-width:180px;
+  padding:14px 16px;border-radius:12px;border:1px solid transparent;
+  background:transparent;color:var(--text-dim);cursor:pointer;
+  display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+  transition:all .2s ease;font-family:inherit;text-align:left;
+}
+.tab:hover{background:var(--bg-2);color:var(--text);}
+.tab.active{background:var(--bg-3);color:var(--text);border-color:var(--line-2);}
+.tab .tab-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle;}
+.tab .tab-title{font-weight:600;font-size:14px;}
+.tab .tab-sub{font-size:11.5px;color:var(--text-mute);letter-spacing:.04em;text-transform:uppercase;}
+.tab.active .tab-sub{color:var(--text-dim);}
+
+/* Hero KPI cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;}
+@media (max-width: 900px){ .kpi-grid{grid-template-columns:1fr;} }
+.kpi{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  border:1px solid var(--line);border-radius:20px;padding:26px 26px 24px;
+  transition:transform .3s ease,border-color .3s ease;
+}
+.kpi:hover{transform:translateY(-2px);border-color:var(--line-2);}
+.kpi::before{
+  content:"";position:absolute;inset:-1px;border-radius:20px;pointer-events:none;
+  background:linear-gradient(140deg,var(--gcol,rgba(255,255,255,.12)),transparent 55%);
+  opacity:.45;mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+  -webkit-mask-composite:xor;mask-composite:exclude;padding:1px;
+}
+.kpi-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mute);}
+.kpi-val{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:clamp(40px,6vw,64px);font-weight:700;letter-spacing:-.025em;
+  line-height:1.05;margin:10px 0 4px;
+  color:var(--text);
+}
+.kpi-val .unit{font-size:.45em;color:var(--text-dim);font-weight:500;margin-left:6px;}
+.kpi-trend{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);margin-top:8px;}
+.kpi-trend .pill{padding:3px 9px;border-radius:999px;background:rgba(74,222,128,.13);color:var(--accent);font-weight:600;font-size:12px;}
+
+/* ===== Section title ===== */
+section{padding:48px 0;border-top:1px solid var(--line);}
+section:first-of-type{border-top:none;}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px;flex-wrap:wrap;}
+.section-title{font-size:clamp(22px,2.4vw,30px);font-weight:700;letter-spacing:-.01em;margin:0;}
+.section-sub{color:var(--text-dim);font-size:14.5px;margin:6px 0 0;max-width:640px;line-height:1.55;}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-mute);letter-spacing:.12em;}
+
+/* ===== Card ===== */
+.card{
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  border:1px solid var(--line);border-radius:20px;padding:26px;
+}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.card-title{font-size:16px;font-weight:600;color:var(--text);}
+.card-sub{font-size:13px;color:var(--text-dim);}
+
+/* ===== Narrative ===== */
+.narrative{position:relative;padding:32px;border-radius:20px;border:1px solid var(--line);background:radial-gradient(800px 300px at 0% 0%,var(--scen-soft,rgba(74,222,128,.10)),transparent 60%),var(--bg-1);}
+.narrative-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mute);}
+.narrative-tag .ai-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(74,222,128,.2);}
+.narrative-text{margin-top:16px;font-size:17.5px;line-height:1.6;color:var(--text);font-weight:400;}
+.narrative-text b{color:var(--scen,#4ade80);font-weight:700;}
+
+/* ===== ROI Card ===== */
+.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media (max-width: 900px){ .roi-grid{grid-template-columns:1fr;} }
+.roi-cell{
+  padding:22px;border-radius:16px;border:1px solid var(--line);
+  background:var(--bg-2);position:relative;overflow:hidden;
+}
+.roi-cell-label{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mute);}
+.roi-cell-val{font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;letter-spacing:-.02em;margin-top:8px;color:var(--text);}
+.roi-cell-val .small{font-size:.55em;color:var(--text-dim);font-weight:500;}
+.roi-arrow{font-size:22px;color:var(--text-mute);text-align:center;align-self:center;}
+.roi-cell.invest{border-left:3px solid var(--text-mute);}
+.roi-cell.revenue{border-left:3px solid var(--scen,#4ade80);}
+.roi-cell.result{border:1px solid var(--scen,#4ade80);background:linear-gradient(135deg,var(--scen-soft,rgba(74,222,128,.18)),var(--bg-2));}
+
+/* ===== Timeline ===== */
+.timeline{position:relative;padding:24px 6px 30px;}
+.timeline-track{
+  position:relative;height:18px;border-radius:999px;
+  background:linear-gradient(90deg,rgba(248,113,113,.25),rgba(251,191,36,.25) 35%,rgba(94,234,212,.28) 65%,rgba(74,222,128,.4));
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+.timeline-progress{
+  position:absolute;left:0;top:0;bottom:0;
+  background:linear-gradient(90deg,var(--scen,#4ade80),var(--scen-2,#22d3ee));
+  opacity:.85;border-radius:999px;
+  transition:width 1s cubic-bezier(.22,.61,.36,1);
+}
+.timeline-marks{display:flex;justify-content:space-between;margin-top:8px;color:var(--text-mute);font-size:11px;font-family:'JetBrains Mono',monospace;}
+.timeline-flag{
+  position:absolute;top:-46px;transform:translateX(-50%);
+  background:var(--scen,#4ade80);color:#07090d;
+  font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;
+  white-space:nowrap;box-shadow:0 6px 22px rgba(0,0,0,.4);
+  transition:left 1s cubic-bezier(.22,.61,.36,1);
+}
+.timeline-flag::after{
+  content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(45deg);
+  width:10px;height:10px;background:inherit;
+}
+.timeline-line{
+  position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.85);
+  transition:left 1s cubic-bezier(.22,.61,.36,1);
+  border-radius:2px;
+  box-shadow:0 0 12px rgba(255,255,255,.5);
+}
+
+/* ===== Charts ===== */
+.chart-wrap{position:relative;height:380px;}
+.chart-wrap.tall{height:420px;}
+
+/* ===== Funnel ===== */
+.funnel{display:flex;flex-direction:column;gap:14px;align-items:center;padding:10px 0;}
+.funnel-row{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:18px 24px;border-radius:14px;color:#07090d;font-weight:700;
+  min-height:88px;text-align:center;
+  transition:width 1s cubic-bezier(.22,.61,.36,1);
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+.funnel-row .num{font-family:'JetBrains Mono',monospace;font-size:28px;letter-spacing:-.01em;}
+.funnel-row .lbl{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;margin-top:4px;}
+.funnel-row .conv{position:absolute;right:-110px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:12px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:6px;}
+@media (max-width: 900px){ .funnel-row .conv{display:none;} }
+
+/* ===== Loss block ===== */
+.loss{
+  border:1px solid rgba(248,113,113,.30);
+  background:linear-gradient(135deg,rgba(248,113,113,.10),var(--bg-1));
+  border-radius:20px;padding:28px;
+}
+.loss-title{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#fca5a5;}
+.loss-headline{font-size:clamp(26px,3vw,38px);font-weight:700;line-height:1.2;margin:10px 0 10px;letter-spacing:-.01em;}
+.loss-headline b{color:#fca5a5;}
+.loss-sub{color:var(--text-dim);font-size:14.5px;line-height:1.55;max-width:680px;}
+.loss-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;}
+@media (max-width: 900px){ .loss-stats{grid-template-columns:1fr;} }
+.loss-stat{padding:18px;border-radius:14px;background:var(--bg-2);border:1px solid var(--line);}
+.loss-stat .lbl{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);}
+.loss-stat .val{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;margin-top:6px;color:#fca5a5;}
+
+/* ===== Cases ===== */
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media (max-width: 900px){ .cases{grid-template-columns:1fr;} }
+.case{
+  position:relative;
+  padding:32px 32px 28px;border-radius:20px;border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  display:flex;flex-direction:column;gap:18px;transition:all .25s ease;
+  text-decoration:none;color:inherit;
+}
+.case:hover{border-color:rgba(74,222,128,.4);transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.35);}
+.case-tag{
+  display:inline-block;
+  font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;
+}
+.case-title{font-size:30px;font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.02em;margin:-4px 0 -8px;}
+.case-url{font-size:13.5px;color:var(--text-mute);}
+.case-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  padding:4px 0 2px;
+}
+.case-stat{display:flex;flex-direction:column;gap:6px;}
+.case-stat-num{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(34px,3.4vw,44px);
+  font-weight:800;letter-spacing:-.025em;line-height:1;
+  color:var(--accent);
+}
+.case-stat-lbl{
+  font-size:12.5px;color:var(--text-dim);line-height:1.3;
+}
+.case-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.case-chip{
+  display:inline-flex;align-items:center;
+  padding:7px 14px;border-radius:999px;
+  border:1px solid var(--line-2);
+  background:var(--bg-3);
+  font-size:12.5px;color:var(--text-dim);
+  white-space:nowrap;
+}
+.case-link{
+  margin-top:4px;
+  font-size:14px;color:var(--accent);
+  display:inline-flex;align-items:center;gap:6px;font-weight:700;
+  letter-spacing:.01em;
+}
+.case:hover .case-link{gap:10px;}
+
+/* ===== Cases mini (4 в ряд) ===== */
+.cases-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+@media (max-width: 1000px){ .cases-mini{grid-template-columns:repeat(2,1fr);} }
+@media (max-width: 520px){ .cases-mini{grid-template-columns:1fr;} }
+.case-mini{
+  position:relative;overflow:hidden;
+  padding:24px 22px 22px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  display:flex;flex-direction:column;gap:12px;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  min-height:230px;
+}
+.case-mini:hover{transform:translateY(-3px);border-color:rgba(74,222,128,.4);box-shadow:0 18px 40px rgba(0,0,0,.3);}
+.case-mini-tag{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;line-height:1.35;}
+.case-mini-title{font-size:20px;font-weight:800;color:var(--text);line-height:1.2;letter-spacing:-.015em;}
+.case-mini-meta{font-size:12.5px;color:var(--text-mute);}
+.case-mini-chart{position:relative;height:80px;margin:4px -4px 2px;}
+.case-mini-chart canvas{position:absolute;inset:0;width:100%!important;height:100%!important;}
+.case-mini-num{
+  margin-top:auto;font-family:'Inter',sans-serif;font-weight:900;
+  font-size:clamp(36px,3.4vw,46px);letter-spacing:-.03em;line-height:1;
+  background:linear-gradient(135deg,#4ade80 0%,#22d3ee 50%,#a3e635 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.case-mini-lbl{font-size:12px;color:var(--text-dim);line-height:1.3;letter-spacing:.02em;}
+
+/* ===== Cases CTA ===== */
+.cases-cta{display:flex;justify-content:center;margin-top:28px;}
+.btn-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 28px;border-radius:12px;
+  background:linear-gradient(135deg,#4ade80,#22d3ee);
+  color:#07090d;font-weight:700;font-size:14.5px;letter-spacing:.01em;
+  text-decoration:none;cursor:pointer;
+  transition:all .25s ease;
+  box-shadow:0 12px 30px rgba(74,222,128,.25);
+}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(74,222,128,.35);filter:brightness(1.08);gap:14px;}
+
+/* ===== Compare on top ===== */
+section.compare-top{padding-top:14px;border-top:none;}
+section.compare-top .section-head{margin-bottom:18px;}
+
+/* ===== Compare cards ===== */
+.compare-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+@media (max-width: 1000px){ .compare-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width: 580px){ .compare-grid{grid-template-columns:1fr;} }
+.compare-card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  border:1px solid var(--line);border-radius:18px;
+  padding:26px 22px 22px;cursor:pointer;
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  text-align:left;font-family:inherit;color:inherit;width:100%;
+}
+.compare-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--ccol,rgba(255,255,255,.25));
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+}
+.compare-card.active{
+  border-color:var(--ccol);
+  box-shadow:0 0 0 1px var(--ccol) inset, 0 18px 40px rgba(0,0,0,.4);
+}
+.compare-bar{
+  position:absolute;left:0;right:0;top:0;height:3px;background:var(--ccol);
+}
+.compare-name{
+  display:flex;align-items:center;gap:10px;
+  font-size:17px;font-weight:700;color:var(--text);margin-bottom:18px;
+}
+.compare-name .dotc{width:9px;height:9px;border-radius:50%;background:var(--ccol);box-shadow:0 0 0 4px rgba(255,255,255,.04);}
+.compare-row{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding:9px 0;border-top:1px solid var(--line);
+}
+.compare-row:first-of-type{border-top:none;}
+.compare-row .lbl{font-size:13px;color:var(--text-dim);}
+.compare-row .val{
+  font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+  color:var(--text);letter-spacing:-.01em;white-space:nowrap;
+}
+.compare-row .val.accent{color:var(--ccol);}
+
+/* ===== Table ===== */
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--bg-1);}
+table.fin{
+  width:100%;border-collapse:separate;border-spacing:0;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+}
+table.fin th,table.fin td{
+  padding:10px 12px;text-align:right;white-space:nowrap;
+  border-bottom:1px solid var(--line);
+}
+table.fin th{
+  position:sticky;top:0;background:var(--bg-2);color:var(--text-dim);
+  font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;
+  z-index:2;
+}
+table.fin th:first-child,table.fin td:first-child{
+  text-align:left;position:sticky;left:0;background:var(--bg-1);z-index:2;
+  border-right:1px solid var(--line);font-family:'Inter',sans-serif;font-size:12.5px;color:var(--text);
+  white-space:normal;
+  min-width:220px;max-width:260px;width:240px;
+  line-height:1.35;
+  box-shadow:6px 0 12px -8px rgba(0,0,0,.6);
+}
+table.fin th:first-child{background:var(--bg-2);z-index:4;}
+table.fin tr:hover td{background:rgba(255,255,255,.025);}
+table.fin tr:hover td:first-child{background:#0f141d;}
+table.fin tr.section-row td{background:var(--bg-3);color:var(--text-dim);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px;}
+table.fin tr.section-row td:first-child{background:var(--bg-3);}
+table.fin tr.total-row td{background:rgba(74,222,128,.06);color:var(--text);font-weight:700;}
+/* total-row sticky cell: накладываем зелёный оттенок на сплошную подложку, чтобы прокручиваемые числа не просвечивали */
+table.fin tr.total-row td:first-child{
+  background:linear-gradient(rgba(74,222,128,.10),rgba(74,222,128,.10)),var(--bg-1);
+}
+/* gross-row: усиленная подсветка для строки «Валовая выручка» */
+table.fin tr.gross-row td{
+  background:rgba(74,222,128,.16);color:var(--accent);font-weight:700;
+}
+table.fin tr.gross-row td:first-child{
+  background:linear-gradient(rgba(74,222,128,.22),rgba(74,222,128,.22)),var(--bg-1);
+  color:var(--accent);
+}
+table.fin td.hi{color:var(--accent);font-weight:600;}
+
+/* ===== Reveal animations ===== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.61,.36,1);}
+.reveal.in{opacity:1;transform:none;}
+
+/* ===== Footer ===== */
+footer{padding:50px 0 70px;border-top:1px solid var(--line);color:var(--text-mute);font-size:12.5px;}
+footer .row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+footer a{color:var(--text-dim);text-decoration:none;}
+footer a:hover{color:var(--text);}
+
+/* ===== PDF Print styles ===== */
+@media print{
+  body{background:#fff;color:#111;}
+  .topbar,.btn{display:none !important;}
+  section{page-break-inside:avoid;border-color:#ddd;}
+  .card,.narrative,.roi-cell{background:#fff;color:#111;border-color:#ddd;}
+}
+
+/* =====================================================
+   TILDA OVERRIDE — Тильда красит ссылки оранжевым,
+   принудительно возвращаем нужные цвета !important
+   ===================================================== */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active{
+  text-decoration:none !important;
+}
+.btn-cta,
+.btn-cta:link,
+.btn-cta:visited,
+.btn-cta:hover,
+.btn-cta:active{
+  color:#07090d !important;
+}
+footer a,
+footer a:link,
+footer a:visited{
+  color:var(--text-dim) !important;
+}
+footer a:hover,
+footer a:active{
+  color:var(--text) !important;
+}
+.case,
+.case:link,
+.case:visited,
+.case:hover,
+.case:active{
+  color:inherit !important;
+}
+.case-link,
+.case-link:link,
+.case-link:visited,
+.case-link:hover,
+.case-link:active{
+  color:var(--accent) !important;
+}
+.brand,
+.brand:link,
+.brand:visited{
+  color:var(--text) !important;
+}
+
+/* pulse */
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,.4); }
+  50% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+}
+.pulse{animation:pulse 2s infinite;}
+
+/* =====================================================
+   MOBILE ADAPTIVE (≤ 640px)
+   ===================================================== */
+@media (max-width: 640px){
+  /* TOPBAR */
+  .topbar-inner{padding:10px 0;gap:8px;}
+  .brand{gap:8px;min-width:0;flex:1;overflow:hidden;}
+  .brand-client{min-width:0;}
+  .brand-logo{height:22px;}
+  .brand-logo svg{height:22px;}
+  .brand-divider{display:none;}
+  .brand-client{font-size:11px;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;}
+  .brand-client .hide-sm{display:none;}
+  .brand-client b{font-size:12.5px;}
+  .topbar-actions{gap:6px;}
+  #btn-print{display:none;}
+  .btn{padding:8px 12px;font-size:12px;border-radius:9px;}
+  .btn .ico{width:14px;height:14px;}
+
+  /* HERO */
+  .hero{padding:28px 0 14px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.14em;padding:5px 10px;}
+  .h1{font-size:clamp(24px,7vw,32px);line-height:1.1;margin:14px 0 10px;letter-spacing:-.015em;}
+  .h1-sub{font-size:14px;line-height:1.5;}
+
+  /* SECTION */
+  section{padding:30px 0;}
+  section.compare-top{padding-top:10px;}
+  .section-head{gap:10px;margin-bottom:16px;}
+  .section-title{font-size:21px;letter-spacing:-.005em;}
+  .section-sub{font-size:13px;margin-top:4px;}
+  .section-num{font-size:10.5px;letter-spacing:.1em;}
+
+  /* CARD */
+  .card{padding:16px;border-radius:14px;}
+
+  /* COMPARE CARDS (top) */
+  .compare-card{padding:18px 16px 16px;border-radius:14px;}
+  .compare-bar{height:2px;}
+  .compare-name{font-size:15px;margin-bottom:10px;}
+  .compare-row{padding:8px 0;}
+  .compare-row .lbl{font-size:12.5px;}
+  .compare-row .val{font-size:14.5px;}
+
+  /* STICKY SCENARIO TABS */
+  .scenario-stick{top:42px;padding:8px 0 10px;}
+  .scenario-bar{padding:6px;gap:6px;border-radius:14px;}
+  .tab{min-width:0;flex:1 1 calc(50% - 3px);padding:8px 10px;border-radius:9px;gap:2px;}
+  .tab .tab-title{font-size:12px;}
+  .tab .tab-sub{font-size:9.5px;letter-spacing:.03em;}
+  .tab .tab-dot{width:6px;height:6px;margin-right:6px;}
+
+  /* KPI */
+  .kpi-section{padding:14px 0 22px;}
+  .kpi-grid{gap:10px;}
+  .kpi{padding:18px 18px 16px;border-radius:16px;}
+  .kpi-label{font-size:10.5px;letter-spacing:.14em;}
+  .kpi-val{font-size:36px;margin:6px 0 2px;}
+  .kpi-val .unit{font-size:.5em;}
+  .kpi-trend{font-size:12px;gap:6px;}
+  .kpi-trend .pill{padding:2px 8px;font-size:11px;}
+
+  /* NARRATIVE */
+  .narrative{padding:20px 18px;border-radius:16px;}
+  .narrative-tag{font-size:10px;letter-spacing:.14em;}
+  .narrative-text{font-size:15px;line-height:1.55;margin-top:12px;}
+
+  /* ROI CARD */
+  .roi-grid{gap:10px;}
+  .roi-cell{padding:16px;border-radius:14px;}
+  .roi-cell-label{font-size:10.5px;letter-spacing:.14em;}
+  .roi-cell-val{font-size:22px;margin-top:6px;}
+  .roi-cell-val .small{font-size:.6em;}
+
+  /* TIMELINE */
+  .timeline{padding:30px 0 22px;}
+  .timeline-track{height:12px;}
+  .timeline-flag{font-size:10.5px;padding:4px 9px;top:-38px;max-width:80vw;}
+  .timeline-marks{font-size:9.5px;margin-top:6px;}
+  /* Спрятать промежуточные метки на узком экране */
+  .timeline-marks span:nth-child(2),
+  .timeline-marks span:nth-child(4),
+  .timeline-marks span:nth-child(6){display:none;}
+
+  /* CHARTS */
+  .chart-wrap{height:280px;}
+  .chart-wrap.tall{height:320px;}
+
+  /* FUNNEL */
+  .funnel{gap:10px;}
+  .funnel-row{padding:14px 16px;min-height:72px;border-radius:12px;}
+  .funnel-row .num{font-size:22px;}
+  .funnel-row .lbl{font-size:10.5px;letter-spacing:.14em;}
+
+  /* LOSS */
+  .loss{padding:22px 18px;border-radius:16px;}
+  .loss-title{font-size:11.5px;}
+  .loss-headline{font-size:22px;line-height:1.25;margin:8px 0;}
+  .loss-sub{font-size:13.5px;}
+  .loss-stats{gap:10px;margin-top:18px;}
+  .loss-stat{padding:14px 16px;border-radius:12px;}
+  .loss-stat .lbl{font-size:10.5px;letter-spacing:.12em;}
+  .loss-stat .val{font-size:22px;}
+
+  /* CASES */
+  .cases-mini{gap:12px;}
+  .case-mini{padding:20px 18px 18px;border-radius:14px;min-height:200px;gap:10px;}
+  .case-mini-tag{font-size:10px;letter-spacing:.14em;}
+  .case-mini-title{font-size:18px;}
+  .case-mini-meta{font-size:12px;}
+  .case-mini-chart{height:68px;}
+  .case-mini-num{font-size:34px;}
+  .case-mini-lbl{font-size:11.5px;}
+  .cases-cta{margin-top:20px;}
+  .btn-cta{padding:12px 22px;font-size:13.5px;border-radius:11px;}
+  .cases{gap:14px;}
+  .case{padding:22px 20px 18px;border-radius:16px;gap:12px;}
+  .case-tag{font-size:10.5px;letter-spacing:.14em;}
+  .case-title{font-size:22px;}
+  .case-url{font-size:13px;}
+  .case-stats{gap:10px;}
+  .case-stat-num{font-size:26px;}
+  .case-stat-lbl{font-size:11px;line-height:1.25;}
+  .case-chips{gap:6px;}
+  .case-chip{padding:6px 10px;font-size:11.5px;}
+  .case-link{font-size:13.5px;}
+
+  /* TABLE */
+  table.fin th,table.fin td{padding:8px 9px;font-size:10.5px;}
+  table.fin th:first-child,table.fin td:first-child{
+    min-width:170px;max-width:200px;width:180px;
+    font-size:11.5px;
+    box-shadow:4px 0 8px -6px rgba(0,0,0,.6);
+  }
+
+  /* FOOTER */
+  footer{padding:28px 0 70px;}
+  footer .row{flex-direction:column;align-items:flex-start;gap:8px;}
+}
+
+/* Совсем мелкие экраны (≤ 380px) */
+@media (max-width: 380px){
+  .h1{font-size:22px;}
+  .section-title{font-size:19px;}
+  .kpi-val{font-size:32px;}
+  .case-title{font-size:20px;}
+  .case-stat-num{font-size:23px;}
+  .loss-headline{font-size:20px;}
+  .tab .tab-title{font-size:11.5px;}
+  .tab .tab-sub{font-size:9px;}
+  .compare-row .val{font-size:13.5px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============== TOP BAR ============== -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <div class="brand-logo" aria-label="Генератор продаж">
+        <svg width="155" height="38" viewBox="0 0 192 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M94.6584 4.08697H88.1346L88.1542 19.1329H85V1.50095H94.678L94.6584 4.08697Z"/>
+          <path d="M103.888 13.9021C103.888 13.9413 103.869 14.2156 103.829 14.7249H95.8559C95.9996 15.378 96.3391 15.8939 96.8746 16.2726C97.4101 16.6514 98.0762 16.8408 98.8729 16.8408C99.4215 16.8408 99.9047 16.7624 100.323 16.6057C100.754 16.4359 101.152 16.1747 101.518 15.822L103.144 17.5852C102.151 18.7215 100.701 19.2897 98.7946 19.2897C97.606 19.2897 96.5547 19.0611 95.6404 18.604C94.7262 18.1338 94.0209 17.4873 93.5246 16.6645C93.0283 15.8416 92.7801 14.9078 92.7801 13.8629C92.7801 12.8311 93.0217 11.9038 93.505 11.081C94.0013 10.2451 94.6739 9.59861 95.5229 9.14148C96.3849 8.6713 97.3448 8.4362 98.4027 8.4362C99.4345 8.4362 100.368 8.65824 101.204 9.1023C102.04 9.54636 102.693 10.1863 103.163 11.0222C103.647 11.845 103.888 12.805 103.888 13.9021ZM98.4223 10.748C97.7301 10.748 97.1489 10.9439 96.6787 11.3357C96.2085 11.7275 95.9212 12.263 95.8167 12.9422H101.008C100.904 12.2761 100.617 11.7471 100.146 11.3553C99.6762 10.9504 99.1015 10.748 98.4223 10.748Z"/>
+          <path d="M106.231 8.59293H109.268V12.7071H113.852V8.59293H116.908V19.1329H113.852V15.1951H109.268V19.1329H106.231V8.59293Z"/>
+          <path d="M130.08 13.9021C130.08 13.9413 130.06 14.2156 130.021 14.7249H122.047C122.191 15.378 122.531 15.8939 123.066 16.2726C123.602 16.6514 124.268 16.8408 125.065 16.8408C125.613 16.8408 126.096 16.7624 126.514 16.6057C126.945 16.4359 127.344 16.1747 127.709 15.822L129.335 17.5852C128.343 18.7215 126.893 19.2897 124.986 19.2897C123.798 19.2897 122.746 19.0611 121.832 18.604C120.918 18.1338 120.212 17.4873 119.716 16.6645C119.22 15.8416 118.972 14.9078 118.972 13.8629C118.972 12.8311 119.213 11.9038 119.697 11.081C120.193 10.2451 120.865 9.59861 121.714 9.14148C122.576 8.6713 123.536 8.4362 124.594 8.4362C125.626 8.4362 126.56 8.65824 127.396 9.1023C128.232 9.54636 128.885 10.1863 129.355 11.0222C129.838 11.845 130.08 12.805 130.08 13.9021ZM124.614 10.748C123.922 10.748 123.34 10.9439 122.87 11.3357C122.4 11.7275 122.113 12.263 122.008 12.9422H127.2C127.095 12.2761 126.808 11.7471 126.338 11.3553C125.868 10.9504 125.293 10.748 124.614 10.748Z"/>
+          <path d="M138.633 8.4362C139.612 8.4362 140.501 8.66477 141.297 9.12189C142.107 9.56596 142.74 10.1994 143.198 11.0222C143.655 11.832 143.883 12.7789 143.883 13.8629C143.883 14.947 143.655 15.9004 143.198 16.7232C142.74 17.533 142.107 18.1664 141.297 18.6236C140.501 19.0676 139.612 19.2897 138.633 19.2897C137.288 19.2897 136.23 18.8652 135.459 18.0162V22.9336H132.403V8.59293H135.322V9.80758C136.079 8.89333 137.183 8.4362 138.633 8.4362ZM138.104 16.782C138.888 16.782 139.528 16.5208 140.024 15.9984C140.533 15.4629 140.788 14.7511 140.788 13.8629C140.788 12.9748 140.533 12.2695 140.024 11.7471C139.528 11.2116 138.888 10.9439 138.104 10.9439C137.32 10.9439 136.674 11.2116 136.164 11.7471C135.668 12.2695 135.42 12.9748 135.42 13.8629C135.42 14.7511 135.668 15.4629 136.164 15.9984C136.674 16.5208 137.32 16.782 138.104 16.782Z"/>
+          <path d="M149.948 8.4362C151.58 8.4362 152.834 8.82803 153.709 9.61167C154.584 10.3823 155.022 11.5512 155.022 13.1185V19.1329H152.161V17.8203C151.587 18.7999 150.516 19.2897 148.948 19.2897C148.139 19.2897 147.433 19.1525 146.833 18.8782C146.245 18.604 145.794 18.2252 145.481 17.742C145.167 17.2587 145.011 16.7102 145.011 16.0963C145.011 15.1168 145.376 14.3462 146.108 13.7846C146.852 13.223 147.995 12.9422 149.536 12.9422H151.965C151.965 12.2761 151.763 11.7667 151.358 11.414C150.953 11.0483 150.346 10.8655 149.536 10.8655C148.975 10.8655 148.42 10.9569 147.871 11.1398C147.335 11.3096 146.878 11.5447 146.5 11.8451L145.402 9.70962C145.977 9.30474 146.663 8.99128 147.46 8.76925C148.269 8.54722 149.099 8.4362 149.948 8.4362ZM149.713 17.2326C150.235 17.2326 150.699 17.115 151.103 16.88C151.508 16.6318 151.796 16.2726 151.965 15.8024V14.7249H149.869C148.615 14.7249 147.989 15.1364 147.989 15.9592C147.989 16.351 148.139 16.6645 148.439 16.8995C148.753 17.1216 149.177 17.2326 149.713 17.2326Z"/>
+          <path d="M166.532 11.1006H162.966V19.1329H159.93V11.1006H156.364V8.59293H166.532V11.1006Z"/>
+          <path d="M172.658 19.2897C171.548 19.2897 170.548 19.0611 169.66 18.604C168.785 18.1338 168.1 17.4873 167.603 16.6645C167.107 15.8416 166.859 14.9078 166.859 13.8629C166.859 12.8181 167.107 11.8842 167.603 11.0614C168.1 10.2386 168.785 9.59861 169.66 9.14148C170.548 8.6713 171.548 8.4362 172.658 8.4362C173.768 8.4362 174.761 8.6713 175.636 9.14148C176.511 9.59861 177.196 10.2386 177.693 11.0614C178.189 11.8842 178.437 12.8181 178.437 13.8629C178.437 14.9078 178.189 15.8416 177.693 16.6645C177.196 17.4873 176.511 18.1338 175.636 18.604C174.761 19.0611 173.768 19.2897 172.658 19.2897ZM172.658 16.782C173.441 16.782 174.081 16.5208 174.578 15.9984C175.087 15.4629 175.342 14.7511 175.342 13.8629C175.342 12.9748 175.087 12.2695 174.578 11.7471C174.081 11.2116 173.441 10.9439 172.658 10.9439C171.874 10.9439 171.228 11.2116 170.718 11.7471C170.209 12.2695 169.954 12.9748 169.954 13.8629C169.954 14.7511 170.209 15.4629 170.718 15.9984C171.228 16.5208 171.874 16.782 172.658 16.782Z"/>
+          <path d="M186.75 8.4362C187.729 8.4362 188.617 8.66477 189.414 9.12189C190.224 9.56596 190.857 10.1994 191.314 11.0222C191.771 11.832 192 12.7789 192 13.8629C192 14.947 191.771 15.9004 191.314 16.7232C190.857 17.533 190.224 18.1664 189.414 18.6236C188.617 19.0676 187.729 19.2897 186.75 19.2897C185.404 19.2897 184.346 18.8652 183.576 18.0162V22.9336H180.52V8.59293H183.439V9.80758C184.196 8.89333 185.3 8.4362 186.75 8.4362ZM186.221 16.782C187.004 16.782 187.644 16.5208 188.141 15.9984C188.65 15.4629 188.905 14.7511 188.905 13.8629C188.905 12.9748 188.65 12.2695 188.141 11.7471C187.644 11.2116 187.004 10.9439 186.221 10.9439C185.437 10.9439 184.79 11.2116 184.281 11.7471C183.785 12.2695 183.537 12.9748 183.537 13.8629C183.537 14.7511 183.785 15.4629 184.281 15.9984C184.79 16.5208 185.437 16.782 186.221 16.782Z"/>
+          <path d="M99.265 29.0397V42.5799H96.0474V31.7274H89.223V42.5799H85.9795V29.0397H99.265Z"/>
+          <path d="M111.322 28.8875C112.672 28.8875 113.874 29.1749 114.929 29.7497C116.002 30.3244 116.841 31.1358 117.446 32.1839C118.052 33.2319 118.354 34.4406 118.354 35.8098C118.354 37.179 118.052 38.3962 117.446 39.4611C116.841 40.5092 116.002 41.3206 114.929 41.8953C113.874 42.4701 112.672 42.7574 111.322 42.7574C109.454 42.7574 107.975 42.1489 106.885 40.9318V47.4991H103.642V29.0397H106.729V30.8146C107.266 30.1723 107.923 29.6905 108.702 29.3693C109.497 29.0481 110.371 28.8875 111.322 28.8875ZM110.959 40.0443C112.153 40.0443 113.13 39.6555 113.891 38.8779C114.67 38.1003 115.059 37.0776 115.059 35.8098C115.059 34.542 114.67 33.5193 113.891 32.7417C113.13 31.9641 112.153 31.5753 110.959 31.5753C110.181 31.5753 109.48 31.7528 108.857 32.1078C108.234 32.4459 107.741 32.9361 107.378 33.5785C107.015 34.2208 106.833 34.9646 106.833 35.8098C106.833 36.655 107.015 37.3988 107.378 38.0412C107.741 38.6835 108.234 39.1822 108.857 39.5372C109.48 39.8753 110.181 40.0443 110.959 40.0443Z"/>
+          <path d="M127.758 42.7574C126.357 42.7574 125.094 42.4616 123.97 41.87C122.845 41.2783 121.963 40.4585 121.323 39.4104C120.7 38.3454 120.389 37.1452 120.389 35.8098C120.389 34.4744 120.7 33.2826 121.323 32.2346C121.963 31.1865 122.845 30.3667 123.97 29.775C125.094 29.1834 126.357 28.8875 127.758 28.8875C129.177 28.8875 130.448 29.1834 131.573 29.775C132.697 30.3667 133.571 31.1865 134.193 32.2346C134.833 33.2826 135.153 34.4744 135.153 35.8098C135.153 37.1452 134.833 38.3454 134.193 39.4104C133.571 40.4585 132.697 41.2783 131.573 41.87C130.448 42.4616 129.177 42.7574 127.758 42.7574ZM127.758 40.0443C128.952 40.0443 129.938 39.6555 130.716 38.8779C131.495 38.1003 131.884 37.0776 131.884 35.8098C131.884 34.542 131.495 33.5193 130.716 32.7417C129.938 31.9641 128.952 31.5753 127.758 31.5753C126.565 31.5753 125.578 31.9641 124.8 32.7417C124.039 33.5193 123.658 34.542 123.658 35.8098C123.658 37.0776 124.039 38.1003 124.8 38.8779C125.578 39.6555 126.565 40.0443 127.758 40.0443Z"/>
+          <path d="M152.996 39.8922V45.5973H149.96V42.5799H139.269V45.5973H136.259V39.8922H136.908C137.79 39.8584 138.387 39.309 138.699 38.244C139.027 37.1621 139.244 35.6408 139.347 33.6799L139.529 29.0397H150.946V39.8922H152.996ZM142.305 33.9081C142.236 35.4633 142.106 36.7311 141.916 37.7115C141.726 38.692 141.38 39.4189 140.878 39.8922H147.703V31.7274H142.383L142.305 33.9081Z"/>
+          <path d="M161.057 28.8875C163.098 28.8875 164.655 29.3693 165.727 30.3329C166.817 31.2795 167.362 32.7163 167.362 34.6434V42.5799H164.3V40.9318C163.902 41.5234 163.332 41.9798 162.588 42.301C161.861 42.6053 160.979 42.7574 159.941 42.7574C158.903 42.7574 157.995 42.5884 157.216 42.2503C156.438 41.8953 155.832 41.4136 155.4 40.805C154.985 40.1795 154.777 39.478 154.777 38.7004C154.777 37.4833 155.236 36.5113 156.153 35.7845C157.087 35.0407 158.548 34.6688 160.538 34.6688H164.119V34.4659C164.119 33.5193 163.825 32.7924 163.236 32.2853C162.666 31.7782 161.809 31.5246 160.668 31.5246C159.889 31.5246 159.119 31.6429 158.358 31.8796C157.614 32.1162 156.983 32.4459 156.464 32.8685L155.192 30.5611C155.919 30.0201 156.793 29.606 157.813 29.3186C158.834 29.0312 159.915 28.8875 161.057 28.8875ZM160.616 40.45C161.429 40.45 162.147 40.2725 162.769 39.9175C163.409 39.5456 163.859 39.0216 164.119 38.3454V36.7733H160.771C158.903 36.7733 157.969 37.3734 157.969 38.5736C157.969 39.1484 158.202 39.6048 158.67 39.9429C159.137 40.281 159.785 40.45 160.616 40.45Z"/>
+          <path d="M184.532 37.1537H182.196V42.5799H178.979V37.1537H176.643L173.27 42.5799H169.43L173.971 35.5816L169.767 29.0397H173.218L176.591 34.5166H178.979V29.0397H182.196V34.5166H184.558L187.957 29.0397H191.408L187.204 35.5816L191.771 42.5799H187.905L184.532 37.1537Z"/>
+          <path d="M8.68082 35.7695C8.35159 34.6957 7.62999 33.7865 6.66067 33.224C5.69135 32.6616 4.54594 32.4875 3.45407 32.7367C2.36219 32.9858 1.40453 33.6399 0.773069 34.5676C0.141608 35.4954 -0.116987 36.6283 0.04912 37.7393C0.215227 38.8503 0.793761 39.8573 1.66875 40.5584C2.54374 41.2594 3.65051 41.6028 4.7672 41.5196C5.8839 41.4364 6.92798 40.9328 7.69016 40.1097C8.45233 39.2867 8.87627 38.2051 8.87699 37.0816C8.87763 36.6369 8.81149 36.1945 8.68082 35.7695ZM4.44186 39.5538C3.95458 39.5537 3.47826 39.4087 3.07313 39.1371C2.668 38.8654 2.35224 38.4794 2.16579 38.0277C1.97934 37.5761 1.93057 37.0791 2.02564 36.5996C2.12072 36.1201 2.35537 35.6797 2.69992 35.334C3.04448 34.9883 3.48347 34.7529 3.96138 34.6575C4.43929 34.5621 4.93466 34.611 5.38485 34.7981C5.83505 34.9852 6.21985 35.3019 6.4906 35.7084C6.76135 36.1149 6.90588 36.5927 6.90594 37.0816C6.90589 37.7373 6.64627 38.366 6.18418 38.8296C5.72208 39.2933 5.09536 39.5537 4.44186 39.5538Z"/>
+          <path d="M18.2407 23.7322C17.3633 23.732 16.5055 23.9929 15.7758 24.4819C15.0462 24.9708 14.4774 25.6659 14.1416 26.4792C13.8057 27.2925 13.7178 28.1874 13.8889 29.0508C14.06 29.9142 14.4826 30.7073 15.103 31.3298C15.7235 31.9523 16.514 32.3762 17.3746 32.5479C18.2352 32.7196 19.1272 32.6314 19.9378 32.2944C20.7484 31.9574 21.4412 31.3869 21.9286 30.6548C22.416 29.9228 22.676 29.0622 22.6758 28.1819C22.6758 27.0018 22.2085 25.87 21.3767 25.0356C20.545 24.2011 19.4169 23.7323 18.2407 23.7322ZM18.2407 30.654C17.7534 30.654 17.2769 30.509 16.8717 30.2374C16.4665 29.9657 16.1507 29.5796 15.9642 29.1279C15.7777 28.6762 15.7289 28.1791 15.824 27.6996C15.919 27.22 16.1537 26.7795 16.4983 26.4338C16.8429 26.0881 17.282 25.8526 17.76 25.7572C18.238 25.6618 18.7334 25.7108 19.1837 25.8979C19.6339 26.085 20.0188 26.4019 20.2895 26.8084C20.5603 27.215 20.7048 27.6929 20.7048 28.1819C20.7048 28.5065 20.6411 28.828 20.5173 29.1279C20.3934 29.4279 20.2119 29.7004 19.9831 29.93C19.7543 30.1595 19.4827 30.3416 19.1837 30.4659C18.8847 30.5901 18.5643 30.654 18.2407 30.654Z"/>
+          <path d="M31.646 39.356C31.0141 38.5106 30.1031 37.9185 29.0758 37.6854C28.0486 37.4523 26.9722 37.5936 26.0392 38.084C25.1063 38.5743 24.3778 39.3817 23.9839 40.3617C23.5901 41.3416 23.5566 42.4302 23.8896 43.4327C24.2226 44.4351 24.9003 45.286 25.8014 45.833C26.7025 46.38 27.7681 46.5874 28.8077 46.4182C29.8473 46.2491 30.793 45.7142 31.4755 44.9095C32.1581 44.1048 32.5329 43.0826 32.5329 42.026C32.5319 41.0634 32.2208 40.1268 31.646 39.356ZM28.0973 44.4982C27.6099 44.4982 27.1335 44.3532 26.7283 44.0815C26.3231 43.8099 26.0072 43.4238 25.8207 42.9721C25.6342 42.5203 25.5855 42.0233 25.6805 41.5437C25.7756 41.0642 26.0103 40.6237 26.3549 40.2779C26.6995 39.9322 27.1386 39.6967 27.6166 39.6014C28.0945 39.506 28.59 39.5549 29.0402 39.742C29.4905 39.9291 29.8753 40.246 30.1461 40.6526C30.4168 41.0591 30.5614 41.5371 30.5614 42.026C30.5614 42.3507 30.4977 42.6721 30.3739 42.9721C30.25 43.2721 30.0685 43.5446 29.8397 43.7742C29.6109 44.0037 29.3393 44.1858 29.0403 44.31C28.7413 44.4343 28.4209 44.4982 28.0973 44.4982Z"/>
+          <path d="M64.5646 7.61835e-09C63.6873 -5.14804e-05 62.8298 0.260881 62.1003 0.749802C61.3709 1.23872 60.8024 1.93367 60.4666 2.74677C60.1309 3.55986 60.043 4.45459 60.2141 5.3178C60.3852 6.18101 60.8076 6.97393 61.4278 7.5963C62.0481 8.21867 62.8384 8.64253 63.6987 8.81428C64.5591 8.98603 65.4509 8.89796 66.2614 8.5612C67.0719 8.22445 67.7646 7.65413 68.2521 6.92237C68.7395 6.19062 68.9996 5.33029 68.9997 4.45018C68.9998 3.26999 68.5325 2.13812 67.7008 1.30355C66.869 0.468985 65.7409 8.49306e-05 64.5646 7.61835e-09V7.61835e-09ZM64.5646 6.92232C64.0772 6.92232 63.6008 6.77734 63.1956 6.50569C62.7904 6.23405 62.4745 5.84795 62.288 5.39623C62.1015 4.9445 62.0527 4.44743 62.1478 3.96789C62.2429 3.48834 62.4776 3.04784 62.8222 2.70211C63.1668 2.35637 63.6059 2.12092 64.0838 2.02553C64.5618 1.93014 65.0573 1.9791 65.5075 2.16621C65.9578 2.35332 66.3426 2.67018 66.6134 3.07673C66.8841 3.48327 67.0286 3.96123 67.0286 4.45018C67.0287 4.77483 66.965 5.09632 66.8411 5.39627C66.7173 5.69622 66.5358 5.96876 66.307 6.19833C66.0782 6.4279 65.8065 6.60999 65.5076 6.73422C65.2086 6.85844 64.8882 6.92236 64.5646 6.92232Z"/>
+          <path d="M6.48535 34.8978L14.5592 29.226L15.6898 30.846L7.61602 36.5177L6.48535 34.8978Z"/>
+          <path d="M32.4986 35.7029C32.9843 36.1521 33.4938 36.5746 34.0249 36.9687L31.6454 39.3559L30.9692 40.0344L29.5752 38.6359L32.4986 35.7029Z"/>
+          <path d="M36.144 34.8427L34.7303 36.2611C34.1952 35.8719 33.683 35.4518 33.1963 35.0031L34.5913 33.6035C35.0814 34.0501 35.6001 34.464 36.144 34.8427Z"/>
+          <path d="M40.3187 30.654L37.5635 33.4182C37.0085 33.0531 36.4813 32.6471 35.9863 32.2035L37.5308 30.654H40.3187Z"/>
+          <path d="M41.4023 26.7693L42.3879 25.7805V28.5776L41.4023 29.5663V26.7693Z"/>
+          <path d="M47.3164 20.8367L48.302 19.848V22.645L47.3164 23.6338V20.8367Z"/>
+          <path d="M54.7749 13.3536C55.217 13.8502 55.6219 14.3789 55.9862 14.9354L53.2305 17.7002V14.9032L54.7749 13.3536Z"/>
+          <path d="M57.5659 10.554C58.0131 11.0422 58.4318 11.5561 58.8197 12.0931L57.406 13.5114C57.0282 12.9659 56.6156 12.4456 56.1709 11.9535L57.5659 10.554Z"/>
+          <path d="M63.2982 7.59969L62.5078 8.39267L59.5253 11.385C59.1326 10.8521 58.7114 10.3409 58.2637 9.85367L61.9043 6.20117L63.2982 7.59969Z"/>
+          <path d="M21.8814 30.2319L27.5347 38.332L25.9199 39.4664L20.2666 31.3663L21.8814 30.2319Z"/>
+          <path d="M54.7753 13.3536C53.5283 11.9508 51.9996 10.8286 50.2894 10.0609C48.5793 9.29315 46.7266 8.89728 44.8531 8.89928C37.5044 8.89928 31.5466 14.8761 31.5466 22.2482C31.5445 24.128 31.9391 25.987 32.7044 27.7028C33.4697 29.4187 34.5884 30.9525 35.9869 32.2035L37.5314 30.654H36.4748V25.7097H41.4035V26.7692L42.389 25.7805V19.7766H47.3166V20.8367L48.3022 19.8479V13.843H53.2308V14.9031L54.7753 13.3536Z"/>
+          <path d="M58.8197 12.0931C57.219 9.88038 55.1191 8.07913 52.6917 6.83657C50.2642 5.594 47.5782 4.94538 44.8531 4.94373C35.3268 4.94373 27.6045 12.6913 27.6045 22.2488C27.6046 24.9787 28.2486 27.67 29.4837 30.1025C30.7188 32.5351 32.51 34.64 34.711 36.2452C36.912 37.8505 39.4603 38.9105 42.1477 39.3387C44.8351 39.7669 47.5853 39.5511 50.1737 38.709C52.7621 37.8668 55.1152 36.4223 57.0407 34.4933C58.9662 32.5643 60.4095 30.2056 61.2527 27.61C62.0958 25.0144 62.3149 22.2555 61.8921 19.5586C61.4692 16.8618 60.4164 14.3036 58.8197 12.0931ZM44.8531 37.5757C40.8013 37.5758 36.9154 35.961 34.0504 33.0867C31.1853 30.2123 29.5756 26.3138 29.5755 22.2488C29.5755 13.7837 36.4156 6.92175 44.8531 6.92175C46.8594 6.92139 48.8461 7.31758 50.6997 8.08771C52.5534 8.85783 54.2377 9.9868 55.6563 11.4101C57.075 12.8334 58.2003 14.5232 58.9679 16.3829C59.7355 18.2427 60.1304 20.2359 60.1301 22.2488C60.1301 30.7138 53.29 37.5757 44.8531 37.5757Z"/>
+          <path d="M55.9859 14.9354C55.6216 14.3789 55.2167 13.8502 54.7746 13.3536C53.5277 11.9508 51.9989 10.8286 50.2887 10.0609C48.5786 9.29318 46.7259 8.8973 44.8524 8.8993C37.5037 8.8993 31.5459 14.8761 31.5459 22.2483C31.5456 24.0015 31.8896 25.7376 32.5582 27.3574C33.2268 28.9773 34.2069 30.4491 35.4426 31.6888C36.6783 32.9285 38.1453 33.9118 39.7599 34.5826C41.3744 35.2534 43.1049 35.5986 44.8524 35.5983C52.2005 35.5983 58.1583 29.6215 58.1583 22.2483C58.1626 19.65 57.4073 17.1075 55.9859 14.9354ZM41.4028 30.654H36.4741V25.7097H41.4028V30.654ZM47.3159 30.654H42.3883V19.7766H47.3159V30.654ZM53.2302 30.654H48.3015V13.8431H53.2302L53.2302 30.654Z"/>
+          <path d="M68.4433 42.4206L64.9584 45.9164C64.8669 46.0083 64.7582 46.0812 64.6386 46.1309C64.519 46.1806 64.3909 46.2062 64.2614 46.2062C64.132 46.2062 64.0038 46.1806 63.8842 46.1309C63.7646 46.0812 63.6559 46.0083 63.5644 45.9164L55.8982 38.2256C55.8066 38.1338 55.734 38.0248 55.6844 37.9048C55.6349 37.7848 55.6094 37.6562 55.6094 37.5263C55.6094 37.3965 55.6349 37.2679 55.6844 37.1479C55.734 37.0279 55.8066 36.9189 55.8982 36.8271L56.5946 36.1283L58.6856 34.0306L59.285 33.4292L59.3831 33.3308C59.4746 33.2389 59.5832 33.166 59.7028 33.1163C59.8224 33.0666 59.9506 33.041 60.0801 33.041C60.2095 33.041 60.3377 33.0666 60.4573 33.1163C60.5769 33.166 60.6855 33.2389 60.777 33.3308L68.4433 41.0221C68.628 41.2077 68.7317 41.4592 68.7317 41.7214C68.7317 41.9836 68.628 42.2351 68.4433 42.4206Z"/>
+          <path d="M60.0794 36.8275L59.383 37.5268C59.2914 37.6186 59.1827 37.6915 59.0631 37.7412C58.9435 37.7909 58.8153 37.8165 58.6858 37.8165C58.5563 37.8165 58.4281 37.7909 58.3084 37.7412C58.1888 37.6915 58.0801 37.6186 57.9886 37.5268L56.6574 36.1908L56.5946 36.1283L55.9584 35.4894L55.8982 35.429C55.8066 35.3372 55.734 35.2282 55.6844 35.1082C55.6349 34.9882 55.6094 34.8596 55.6094 34.7297C55.6094 34.5999 55.6349 34.4713 55.6844 34.3513C55.734 34.2313 55.8066 34.1223 55.8982 34.0305L56.5951 33.3318C56.6866 33.2399 56.7952 33.167 56.9147 33.1173C57.0343 33.0676 57.1624 33.042 57.2918 33.042C57.4213 33.042 57.5494 33.0676 57.6689 33.1173C57.7885 33.167 57.8971 33.2399 57.9886 33.3318L58.0487 33.3921L58.6855 34.0305L58.7478 34.0935L60.0794 35.429C60.171 35.5208 60.2436 35.6298 60.2932 35.7498C60.3427 35.8698 60.3682 35.9984 60.3682 36.1283C60.3682 36.2581 60.3427 36.3867 60.2932 36.5067C60.2436 36.6267 60.171 36.7357 60.0794 36.8275Z"/>
+        </svg>
+      </div>
+      <div class="brand-divider"></div>
+      <div class="brand-client"><span class="hide-sm">Финмодель для&nbsp;</span><b id="r-brand-client">platipomiru.com</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="reveal in">
+      <span class="eyebrow"><span class="dot"></span><span id="r-eyebrow">12–18 месяцев • для собственника</span></span>
+      <h1 class="h1" id="r-h1">Прогноз роста сайта <span class="grad">platipomiru.com</span><br/>в&nbsp;4 сценариях продвижения</h1>
+      <p class="h1-sub">Интерактивная финансовая модель: переключайте сценарии, сравнивайте трафик, выручку и&nbsp;ROI на&nbsp;горизонте года. Все расчёты — на&nbsp;реальных данных вашего проекта.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== COMPARE (moved to top) ============== -->
+<section class="compare-top">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <h2 class="section-title">Сравнение сценариев</h2>
+        <p class="section-sub">Кликните по&nbsp;карточке, чтобы переключить детальный разбор ниже.</p>
+      </div>
+    </div>
+    <div class="compare-grid reveal" id="compareGrid"></div>
+  </div>
+</section>
+
+<!-- ============== STICKY SCENARIO TABS ============== -->
+<div class="scenario-stick">
+  <div class="container">
+    <div class="scenario-bar" id="scenarioBar" role="tablist"></div>
+  </div>
+</div>
+
+<!-- ============== HERO KPI CARDS ============== -->
+<div class="kpi-section">
+  <div class="container">
+    <div class="kpi-grid">
+      <div class="kpi reveal" style="--gcol:rgba(148,160,179,.35);">
+        <div class="kpi-label">Сегодня — трафик / месяц</div>
+        <div class="kpi-val" id="kpi-now-val">0</div>
+        <div class="kpi-trend">визитов на сайт без активного SEO</div>
+      </div>
+      <div class="kpi reveal" id="kpi-future-card" style="--gcol:var(--scen,#4ade80);">
+        <div class="kpi-label">Через 12 месяцев — трафик</div>
+        <div class="kpi-val"><span id="kpi-future-val">0</span></div>
+        <div class="kpi-trend"><span class="pill" id="kpi-future-pill">×0</span>&nbsp;рост от текущего</div>
+      </div>
+      <div class="kpi reveal" id="kpi-roi-card" style="--gcol:var(--scen,#4ade80);">
+        <div class="kpi-label">ROI на 12-м месяце</div>
+        <div class="kpi-val"><span id="kpi-roi-val">0</span><span class="unit">%</span></div>
+        <div class="kpi-trend">отдача от вложений за месяц</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== AI NARRATIVE ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">01 / Сценарий простыми словами</div>
+        <h2 class="section-title">Что это значит для бизнеса</h2>
+        <p class="section-sub">Краткая интерпретация выбранного сценария — без таблиц, на языке выручки и&nbsp;клиентов.</p>
+      </div>
+    </div>
+    <div class="narrative reveal" id="narrative">
+      <span class="narrative-tag"><span class="ai-dot"></span>AI-интерпретация данных</span>
+      <p class="narrative-text" id="narrative-text">…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ROI CARD ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">02 / Карточка ROI</div>
+        <h2 class="section-title">Сколько вложили — сколько получили</h2>
+        <p class="section-sub">Сравнение ежемесячного вложения и&nbsp;выручки на&nbsp;12-м месяце выбранного сценария.</p>
+      </div>
+    </div>
+    <div class="roi-grid reveal">
+      <div class="roi-cell invest">
+        <div class="roi-cell-label">Ежемесячное вложение</div>
+        <div class="roi-cell-val" id="roi-invest">0&nbsp;<span class="small">₽</span></div>
+      </div>
+      <div class="roi-cell revenue">
+        <div class="roi-cell-label">Выручка на 12-м мес.</div>
+        <div class="roi-cell-val" id="roi-revenue">0&nbsp;<span class="small">₽</span></div>
+      </div>
+      <div class="roi-cell result">
+        <div class="roi-cell-label">ROI</div>
+        <div class="roi-cell-val" id="roi-percent">0&nbsp;<span class="small">%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== REVENUE CHART ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">03 / Динамика выручки</div>
+        <h2 class="section-title">Рост выручки по&nbsp;месяцам</h2>
+        <p class="section-sub">Наведите курсор — увидите точное значение.</p>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="chart-wrap tall"><canvas id="chart-revenue"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== LEADS CHART ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">04 / Динамика лидов</div>
+        <h2 class="section-title">Рост лидов по&nbsp;месяцам</h2>
+        <p class="section-sub">Сколько заявок будет приносить органический поиск по&nbsp;каждому сценарию.</p>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="chart-wrap tall"><canvas id="chart-leads"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== LEAD COST ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">05 / Эффект накопления</div>
+        <h2 class="section-title">Как падает стоимость лида со&nbsp;временем</h2>
+        <p class="section-sub">SEO работает на&nbsp;вас и&nbsp;после первого года: контент остаётся, ссылки накапливаются, стоимость привлечения снижается в&nbsp;десятки раз.</p>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="chart-wrap"><canvas id="chart-cpl"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== LOSS ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">07 / Цена бездействия</div>
+        <h2 class="section-title">Что вы теряете каждый месяц без&nbsp;SEO</h2>
+        <p class="section-sub">Разница между сценарием и&nbsp;текущим трафиком&nbsp;— это упущенные лиды, клиенты и&nbsp;выручка, которые мог бы&nbsp;давать сайт уже сегодня.</p>
+      </div>
+    </div>
+    <div class="loss reveal">
+      <div class="loss-title">Каждый месяц без продвижения</div>
+      <div class="loss-headline" id="loss-headline">= <b>0 потенциальных клиентов</b></div>
+      <div class="loss-sub" id="loss-sub">…</div>
+      <div class="loss-stats">
+        <div class="loss-stat">
+          <div class="lbl">Недополученный трафик / мес.</div>
+          <div class="val" id="loss-traffic">0</div>
+        </div>
+        <div class="loss-stat">
+          <div class="lbl">Недополученные лиды / мес.</div>
+          <div class="val" id="loss-leads">0</div>
+        </div>
+        <div class="loss-stat">
+          <div class="lbl">Недополученная выручка / мес.</div>
+          <div class="val" id="loss-revenue">0&nbsp;₽</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============== CASES ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">08 / Кейсы агентства</div>
+        <h2 class="section-title">Средний рост клиентов за&nbsp;6&nbsp;месяцев — 574%</h2>
+      </div>
+    </div>
+    <div class="cases-mini reveal">
+      <div class="case-mini">
+        <div class="case-mini-tag">Образовательный портал</div>
+        <div class="case-mini-title">GeekBrains</div>
+        <div class="case-mini-meta">8&nbsp;месяцев работ • окт&nbsp;21 → май&nbsp;22</div>
+        <div class="case-mini-chart"><canvas id="case-chart-1"></canvas></div>
+        <div class="case-mini-num">+9 100%</div>
+        <div class="case-mini-lbl">рост посещаемости<br/>(с&nbsp;~1k до&nbsp;~91k визитов / мес)</div>
+      </div>
+      <div class="case-mini">
+        <div class="case-mini-tag">Поставщик оборудования для&nbsp;СТО</div>
+        <div class="case-mini-title">ЦТО</div>
+        <div class="case-mini-meta">11&nbsp;месяцев работ • сен&nbsp;22 → июл&nbsp;23</div>
+        <div class="case-mini-chart"><canvas id="case-chart-2"></canvas></div>
+        <div class="case-mini-num">+258%</div>
+        <div class="case-mini-lbl">рост посещаемости<br/>(с&nbsp;~13k до&nbsp;~47k визитов / мес)</div>
+      </div>
+      <div class="case-mini">
+        <div class="case-mini-tag">Журнал руководителя</div>
+        <div class="case-mini-title">«Генеральный директор»</div>
+        <div class="case-mini-meta">5&nbsp;месяцев работ • май → сен</div>
+        <div class="case-mini-chart"><canvas id="case-chart-3"></canvas></div>
+        <div class="case-mini-num">+935%</div>
+        <div class="case-mini-lbl">рост посещаемости<br/>(с&nbsp;~22k до&nbsp;~228k визитов / мес)</div>
+      </div>
+      <div class="case-mini">
+        <div class="case-mini-tag">Интегративная нутрициология</div>
+        <div class="case-mini-title">МИИН</div>
+        <div class="case-mini-meta">12&nbsp;месяцев работ • авг&nbsp;20 → авг&nbsp;21</div>
+        <div class="case-mini-chart"><canvas id="case-chart-4"></canvas></div>
+        <div class="case-mini-num">+2 921%</div>
+        <div class="case-mini-lbl">рост посещаемости<br/>(с&nbsp;~10k до&nbsp;~302k визитов / мес)</div>
+      </div>
+    </div>
+    <div class="cases-cta reveal">
+      <a class="btn-cta" href="https://sales-generator.ru/portfolio/" target="_blank" rel="noopener">
+        Смотреть ещё 300+ кейсов&nbsp;→
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TABLE ============== -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">09 / Полная таблица</div>
+        <h2 class="section-title">Полная таблица</h2>
+      </div>
+    </div>
+    <div class="card reveal" style="padding:8px;">
+      <div class="table-scroll">
+        <table class="fin" id="fin-table"></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container row">
+    <div>© Digital-агентство «Генератор продаж» • Финмодель подготовлена для <b id="r-footer-client" style="color:var(--text);">platipomiru.com</b></div>
+    <div>Сценариев: 4 • Горизонт: до&nbsp;18 месяцев • <a href="https://sales-generator.ru" target="_blank" rel="noopener">sales-generator.ru</a></div>
+  </div>
+</footer>
+
+<!--REPORT_DATA-->
+<script>
+/* ============================================================
+   DATA — дефолтный шаблон (platipomiru). Реальные отчёты приходят
+   из window.__REPORT__ / JSON-блока и пересчитываются движком.
+   ============================================================ */
+let CURRENT_TRAFFIC = 5000;
+
+let SCENARIOS = [
+  {
+    id: 'start',
+    name: 'Стартовый',
+    sub: 'мин. вложения',
+    color: 'var(--s-start)',
+    colorRaw: '#8a96aa',
+    soft: 'var(--s-start-soft)',
+    months: 15,
+    invest: 446000,
+    investSeries: Array(15).fill(446000),
+    rubPerClient: 2500,
+    breakdown: { 'Контент':160000, 'Семантика':15000, 'Тех.работы и верстка':49000, 'Работы по конверсии':71000, 'SEO':59000, 'GEO':42000, 'Админ.расходы':50000 },
+    traffic:  [5000,5849,6815,7628,8955,10825.88,14559.7319,21483.5083,26613.1613,32085.907,38199.6501,44700,48555.3067,55067.7124,61537.673],
+    rubPerVisit: [null,76.2524,65.4439,58.4688,49.8046,41.1976,30.6324,20.7601,16.7586,13.9002,11.6755,9.9776,9.1854,8.0991,7.2476],
+    leads:    [null,58.49,68.15,76.28,89.55,108.2588,145.5973,214.8351,266.1316,320.8591,381.9965,447,485.5531,550.6771,615.3767],
+    cpl:      [null,7625.2351,6544.3874,5846.8799,4980.4578,4119.7575,3063.2432,2076.011,1675.8625,1390.0184,1167.55,997.7629,918.5402,809.912,724.7593],
+    clients:  [null,58.49,112.0175,160.2931,209.7698,265.5862,344.787,473.4253,621.2006,786.7595,972.0661,1176.0496,1367.5903,1576.3698,1797.6541],
+    rubPerClientCost: [null,7625.2351,3981.5207,2782.4026,2126.1397,1679.3042,1293.5524,942.0705,717.9645,566.8822,458.8165,379.2357,326.1211,282.9285,248.1011],
+    revenue:  [0,146225,280043.75,400732.8125,524424.6094,663965.4576,861967.3903,1183563.25,1553001.471,1966898.778,2430165.336,2940124.002,3418975.669,3940924.56,4494135.246],
+    roi:      [null,0.3279,0.6279,0.8985,1.1758,1.4887,1.9327,2.6537,3.4821,4.4101,5.4488,6.5922,7.6659,8.8362,10.0765],
+  },
+  {
+    id: 'cons',
+    name: 'Консервативный',
+    sub: 'оптимум вход',
+    color: 'var(--s-cons)',
+    colorRaw: '#5eead4',
+    soft: 'var(--s-cons-soft)',
+    months: 15,
+    invest: 577000,
+    investSeries: Array(15).fill(577000),
+    rubPerClient: 2500,
+    breakdown: { 'Контент':200000, 'Семантика':15000, 'Тех.работы и верстка':94000, 'Работы по конверсии':83000, 'SEO':77000, 'GEO':48000, 'Админ.расходы':60000 },
+    traffic:  [5000,5392.0071,6284.9121,8319.9612,9660.5286,13423.3127,18821.8793,28832.5787,36249.2559,44161.9915,53001.5092,62400,67781.9046,76873.0481,85904.9395],
+    rubPerVisit: [null,107.0102,91.8072,69.3513,59.7276,42.9849,30.6558,20.0121,15.9176,13.0655,10.8865,9.2468,8.5126,7.5059,6.7167],
+    leads:    [null,53.9201,62.8491,83.1996,96.6053,134.2331,188.2188,288.3258,362.4926,441.6199,530.0151,624,677.819,768.7305,859.0494],
+    cpl:      [null,10701.0245,9180.7171,6935.1285,5972.758,4298.4918,3065.5812,2001.2084,1591.7568,1306.5534,1088.6482,924.6795,851.2596,750.5882,671.6727],
+    clients:  [null,53.9201,103.2892,160.6665,217.1052,297.062,411.0153,596.5873,809.933,1049.0697,1316.8173,1611.613,1886.5288,2183.6271,2496.7697],
+    rubPerClientCost: [null,10701.0245,5586.2582,3591.2902,2657.6983,1942.3555,1403.8407,967.1678,712.4046,550.0111,438.1777,358.0264,305.8527,264.2393,231.0986],
+    revenue:  [0,134800.1771,258222.9354,401666.2319,542762.8901,742654.9845,1027538.222,1491468.135,2024832.499,2622674.162,3292043.352,4029032.514,4716322.001,5459067.704,6241924.266],
+    roi:      [null,0.2336,0.4475,0.6961,0.9407,1.2871,1.7808,2.5849,3.5092,4.5454,5.7054,6.9827,8.1739,9.4611,10.8179],
+  },
+  {
+    id: 'bal',
+    name: 'Сбалансированный',
+    sub: 'оптим. рост',
+    color: 'var(--s-bal)',
+    colorRaw: '#34d399',
+    soft: 'var(--s-bal-soft)',
+    months: 15,
+    invest: 841000,
+    investSeries: Array(15).fill(841000),
+    rubPerClient: 2500,
+    breakdown: { 'Контент':260000, 'Семантика':24000, 'Тех.работы и верстка':104000, 'Работы по конверсии':118000, 'SEO':95000, 'GEO':72000, 'Админ.расходы':80000, 'CRM-маркетинг':88000 },
+    traffic:  [5000,5589.3765,6931.8452,9991.5096,12007.0317,17664.3185,25780.9789,40831.9084,51982.7663,63879.4402,77169.5165,91300,108304.4855,133661.1062,158721.3608],
+    rubPerVisit: [null,150.464,121.3241,84.1715,70.0423,47.6101,32.6209,20.5966,16.1784,13.1654,10.8981,9.2114,7.7651,6.292,5.2986],
+    leads:    [null,55.8938,69.3185,99.9151,120.0703,176.6432,257.8098,408.3191,519.8277,638.7944,771.6952,913,1083.0449,1336.6111,1587.2136],
+    cpl:      [null,15046.401,12132.4117,8417.1465,7004.229,4761.0102,3262.0949,2059.6637,1617.8439,1316.5425,1089.8086,921.1391,776.5145,629.2032,529.8594],
+    clients:  [null,55.8938,111.2388,183.3442,257.5785,369.827,535.1801,809.7041,1127.1058,1484.1237,1884.788,2326.591,2827.9881,3457.6021,4180.4152],
+    rubPerClientCost: [null,15046.401,7560.3133,4587.0014,3265.0247,2274.0361,1571.4337,1038.651,746.1589,566.6643,446.204,361.4731,297.3846,243.2322,201.1762],
+    revenue:  [0,139734.4125,278096.9394,458360.4454,643946.1276,924567.5591,1337950.141,2024260.317,2817764.396,3710309.301,4711969.887,5816477.415,7069970.198,8644005.304,10451038],
+    roi:      [null,0.1662,0.3307,0.545,0.7657,1.0994,1.5909,2.407,3.3505,4.4118,5.6028,6.9161,8.4066,10.2782,12.4269],
+  },
+  {
+    id: 'agg',
+    name: 'Агрессивный',
+    sub: 'максимум',
+    color: 'var(--s-agg)',
+    colorRaw: '#a3e635',
+    soft: 'var(--s-agg-soft)',
+    months: 15,
+    invest: 1482000,
+    investSeries: Array(15).fill(1482000),
+    rubPerClient: 2500,
+    breakdown: { 'Контент':600000, 'Семантика':64000, 'Тех.работы и верстка':178000, 'Работы по конверсии':196000, 'SEO':167000, 'GEO':88000, 'Админ.расходы':90000, 'CRM-маркетинг':99000 },
+    traffic:  [5000,5973.8713,8192.1336,13247.8479,16578.2471,25926.2088,39337.979,64207.7653,82633.1689,102290.9405,124251.1361,147600,175090.2744,216083.015,256596.6359],
+    rubPerVisit: [null,248.0803,180.9053,111.8672,89.3943,57.1622,37.6735,23.0813,17.9347,14.4881,11.9275,10.0407,8.4642,6.8585,5.7756],
+    leads:    [null,59.7387,81.9213,132.4785,165.7825,259.2621,393.3798,642.0777,826.3317,1022.9094,1242.5114,1476,1750.9027,2160.8301,2565.9664],
+    cpl:      [null,24808.0338,18090.5254,11186.7226,8939.4252,5716.2233,3767.3516,2308.132,1793.4687,1448.8087,1192.7456,1004.065,846.4205,685.8475,577.5602],
+    clients:  [null,59.7387,126.7254,227.5225,336.4244,511.5804,777.0651,1224.8764,1744.989,2331.6512,2991.2497,3719.4373,4540.4807,5566.1907,6740.6094],
+    rubPerClientCost: [null,24808.0338,11694.5802,6513.6413,4405.1508,2896.9056,1907.1762,1209.918,849.289,635.6011,495.4451,398.4474,326.3972,266.2503,219.8614],
+    revenue:  [0,149346.7813,316813.4248,568806.2661,841060.8776,1278950.879,1942662.635,3062191.108,4362472.554,5829127.928,7478124.349,9298593.262,11351201.81,13915476.73,16851523.45],
+    roi:      [null,0.1008,0.2138,0.3838,0.5675,0.863,1.3108,2.0663,2.9436,3.9333,5.046,6.2744,7.6594,9.3897,11.3708],
+  },
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentScenario = 0;
+let charts = { revenue: null, leads: null, cpl: null };
+
+/* ============================================================
+   FORMATTERS
+   ============================================================ */
+const fmt = {
+  num: (v, digits=0) => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:digits}).format(v),
+  rub: (v) => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(v))+' ₽',
+  rubShort: (v) => {
+    if(v >= 1_000_000) return (v/1_000_000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн ₽';
+    if(v >= 1_000) return Math.round(v/1000).toLocaleString('ru-RU')+' тыс ₽';
+    return Math.round(v).toLocaleString('ru-RU')+' ₽';
+  },
+  pct: (v) => new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(v*100))+'%',
+};
+
+/* ============================================================
+   BUILD TABS
+   ============================================================ */
+function buildTabs(){
+  const bar = document.getElementById('scenarioBar');
+  bar.innerHTML = SCENARIOS.map((s,i)=>`
+    <button class="tab ${i===0?'active':''}" data-idx="${i}" role="tab">
+      <div class="tab-title"><span class="tab-dot" style="background:${s.colorRaw};"></span>${s.name}</div>
+      <div class="tab-sub">${s.sub} • ${fmt.rubShort(s.invest)}/мес</div>
+    </button>
+  `).join('');
+  bar.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const idx = +btn.dataset.idx;
+      setScenario(idx);
+    });
+  });
+}
+
+/* ============================================================
+   COUNTER ANIMATION
+   ============================================================ */
+function animateCounter(el, from, to, opts={}){
+  const {duration=1100, format=(v)=>fmt.num(v), suffix=''} = opts;
+  const start = performance.now();
+  cancelAnimationFrame(el._raf);
+  const tick = (t)=>{
+    const p = Math.min(1,(t-start)/duration);
+    const eased = 1 - Math.pow(1-p,3);
+    const val = from + (to-from)*eased;
+    el.textContent = format(val)+suffix;
+    if(p<1) el._raf = requestAnimationFrame(tick);
+  };
+  el._raf = requestAnimationFrame(tick);
+}
+
+/* ============================================================
+   AI NARRATIVE (генерируем под каждый сценарий)
+   ============================================================ */
+function narrativeFor(s){
+  const m12idx = 11; // месяц 12 — индекс 11
+  const traf12 = s.traffic[m12idx];
+  const rev12 = s.revenue[m12idx];
+  const cli12 = s.clients[m12idx];
+  const roi12 = s.roi[m12idx];
+  const cplStart = s.cpl[1];
+  const cplLast = s.cpl[s.cpl.length-1];
+  const trafLast = s.traffic[s.traffic.length-1];
+  const revLast = s.revenue[s.revenue.length-1];
+  const lastMonth = s.months;
+  const growth = (traf12 / CURRENT_TRAFFIC).toFixed(1);
+  const paybackMonth = s.roi.findIndex(v => v!==null && v>=1) + 1;
+
+  const intros = {
+    start: `<b>Стартовый сценарий</b> — это «вход в SEO без шока для бюджета». При ежемесячных вложениях <b>${fmt.rubShort(s.invest)}</b> сайт через 12 месяцев генерирует около <b>${fmt.rubShort(rev12)}</b> выручки в месяц (~${fmt.num(cli12)} клиентов из органики) и выходит на трафик <b>${fmt.num(traf12)} визитов</b> — это в <b>${growth}×</b> больше, чем сейчас. Точка месячной окупаемости — <b>${paybackMonth}-й месяц</b>. К ${lastMonth}-му месяцу, когда основные работы завершены и остаётся только сопровождение, выручка достигает <b>${fmt.rubShort(revLast)}</b>, а стоимость лида падает с ${fmt.rub(cplStart)} до ${fmt.rub(cplLast)} — это и есть «эффект накопления» SEO как актива.`,
+    cons:  `<b>Консервативный сценарий</b> — рабочий оптимум для устойчивого роста. Вкладывая <b>${fmt.rubShort(s.invest)}</b> в месяц, к 12-му месяцу вы выходите на <b>${fmt.num(traf12)} визитов</b> (×${growth} к текущему), <b>${fmt.num(cli12)} клиентов</b> и <b>${fmt.rubShort(rev12)}</b> выручки ежемесячно. ROI к этому моменту — <b>${fmt.pct(roi12)}</b>, а точка окупаемости — уже <b>${paybackMonth}-й месяц</b>. Стоимость лида снижается с ${fmt.rub(cplStart)} до ${fmt.rub(cplLast)} к ${lastMonth}-му месяцу. Это сценарий, который мы рекомендуем как базовый: предсказуемый рост без перегрева команды и бюджета.`,
+    bal:   `<b>Сбалансированный сценарий</b> — оптимум по соотношению риск/доходность. Вложения <b>${fmt.rubShort(s.invest)}</b>/мес дают через год <b>${fmt.num(traf12)} визитов</b> в месяц (×${growth} от текущего трафика), <b>${fmt.num(cli12)} клиентов</b> и <b>${fmt.rubShort(rev12)}</b> ежемесячной выручки. ROI на 12-м месяце — <b>${fmt.pct(roi12)}</b>, окупаемость наступает уже на <b>${paybackMonth}-м месяце</b>. Подключение CRM-маркетинга и усиленная работа над конверсией ускоряют монетизацию каждого визита: стоимость лида падает с ${fmt.rub(cplStart)} до ${fmt.rub(cplLast)}. На горизонте ${lastMonth} месяцев выручка достигает <b>${fmt.rubShort(revLast)}</b>/мес.`,
+    agg:   `<b>Агрессивный сценарий</b> — для роста в разы и захвата ниши. Бюджет <b>${fmt.rubShort(s.invest)}</b>/мес даёт через год <b>${fmt.num(traf12)} визитов</b> (×${growth} к текущему уровню), <b>${fmt.num(cli12)} клиентов</b> и около <b>${fmt.rubShort(rev12)}</b> ежемесячной выручки. На 12-м месяце ROI достигает <b>${fmt.pct(roi12)}</b>, окупаемость — <b>${paybackMonth}-й месяц</b>. К ${lastMonth}-му месяцу выручка выходит на <b>${fmt.rubShort(revLast)}</b>/мес, а стоимость лида снижается с ${fmt.rub(cplStart)} до ${fmt.rub(cplLast)} — х${(cplStart/cplLast).toFixed(0)} от старта. Это путь не «протестировать SEO», а сделать органику основным каналом продаж.`
+  };
+  return intros[s.id];
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function setScenario(idx){
+  currentScenario = idx;
+  const s = SCENARIOS[idx];
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    t.classList.toggle('active', i===idx);
+  });
+
+  // CSS vars for scenario tint
+  document.documentElement.style.setProperty('--scen', s.colorRaw);
+  document.documentElement.style.setProperty('--scen-soft', s.soft);
+  document.documentElement.style.setProperty('--scen-2', '#22d3ee');
+
+  // KPI animation
+  const m12 = 11;
+  const traf12 = s.traffic[m12];
+  const roi12 = s.roi[m12];
+
+  // Current traffic (one-time, but animate on each switch for vibe)
+  animateCounter(document.getElementById('kpi-now-val'), 0, CURRENT_TRAFFIC, {format:v=>fmt.num(v)});
+  animateCounter(document.getElementById('kpi-future-val'), CURRENT_TRAFFIC, traf12, {format:v=>fmt.num(v)});
+  animateCounter(document.getElementById('kpi-roi-val'), 0, Math.round(roi12*100), {format:v=>fmt.num(v)});
+
+  document.getElementById('kpi-future-pill').textContent = '×'+(traf12/CURRENT_TRAFFIC).toFixed(1);
+
+  // Narrative
+  document.getElementById('narrative-text').innerHTML = narrativeFor(s);
+
+  // ROI card
+  document.getElementById('roi-invest').innerHTML = fmt.num(s.invest)+'&nbsp;<span class="small">₽ / мес</span>';
+  document.getElementById('roi-revenue').innerHTML = fmt.num(Math.round(s.revenue[m12]))+'&nbsp;<span class="small">₽ / 12-й мес.</span>';
+  document.getElementById('roi-percent').innerHTML = Math.round(roi12*100)+'&nbsp;<span class="small">% / мес.</span>';
+
+  // Funnel
+
+  // Loss block
+  renderLoss(s, m12);
+
+  // Charts
+  renderChartRevenue();
+  renderChartLeads();
+  renderChartCPL();
+
+  // Table
+  renderTable(s);
+
+  // Compare grid (active state)
+  updateCompareActive();
+}
+
+/* ============================================================
+   COMPARE GRID
+   ============================================================ */
+function renderCompareGrid(){
+  const grid = document.getElementById('compareGrid');
+  const m12 = 11;
+  grid.innerHTML = SCENARIOS.map((s,i)=>{
+    const traf12 = s.traffic[m12];
+    const rev12  = s.revenue[m12];
+    const cli12  = s.clients[m12];
+    const roi12  = s.roi[m12];
+    return `
+      <button class="compare-card" data-idx="${i}" style="--ccol:${s.colorRaw};">
+        <div class="compare-bar"></div>
+        <div class="compare-name"><span class="dotc"></span>${s.name}</div>
+        <div class="compare-row"><span class="lbl">Бюджет / мес</span><span class="val">${fmt.num(s.invest)}&nbsp;₽</span></div>
+        <div class="compare-row"><span class="lbl">Трафик на 12 мес</span><span class="val">${fmt.num(traf12)}</span></div>
+        <div class="compare-row"><span class="lbl">Выручка / мес</span><span class="val accent">${fmt.num(Math.round(rev12))}&nbsp;₽</span></div>
+        <div class="compare-row"><span class="lbl">Клиентов / мес</span><span class="val">${fmt.num(Math.round(cli12))}</span></div>
+        <div class="compare-row"><span class="lbl">Окупаемость</span><span class="val accent">${Math.round(roi12*100)}%</span></div>
+      </button>
+    `;
+  }).join('');
+  grid.querySelectorAll('.compare-card').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = +btn.dataset.idx;
+      setScenario(idx);
+      // Smooth scroll к табам, чтобы пользователь увидел переключение
+      const tabs = document.getElementById('scenarioBar');
+      if(tabs) tabs.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+
+function updateCompareActive(){
+  document.querySelectorAll('.compare-card').forEach((c,i)=>{
+    c.classList.toggle('active', i===currentScenario);
+  });
+}
+
+/* ============================================================
+   FUNNEL
+   ============================================================ */
+function renderFunnel(s, m12){
+  const traf = s.traffic[m12];
+  const leads = s.leads[m12];
+  const clients = s.clients[m12];
+  // Фиксированные убывающие ярусы — воронка всегда сужается, реальные числа в подписях.
+  const wMax = 100, wLeads = 62, wClients = 36;
+  const el = document.getElementById('funnel');
+  el.innerHTML = `
+    <div class="funnel-row" style="background:${s.colorRaw};width:${wMax}%;max-width:780px;">
+      <div class="num">${fmt.num(traf)}</div>
+      <div class="lbl">Визиты / мес.</div>
+      <div class="conv">↓ конверсия ${fmt.pct(leads/traf)}</div>
+    </div>
+    <div class="funnel-row" style="background:${shade(s.colorRaw,-20)};width:${wLeads}%;max-width:520px;">
+      <div class="num">${fmt.num(leads)}</div>
+      <div class="lbl">Лиды / мес.</div>
+      <div class="conv">↓ конверсия ${fmt.pct(clients/leads)}</div>
+    </div>
+    <div class="funnel-row" style="background:${shade(s.colorRaw,-40)};width:${wClients}%;max-width:340px;">
+      <div class="num">${fmt.num(clients)}</div>
+      <div class="lbl">Клиенты / мес.</div>
+      <div class="conv">≈ ${fmt.rubShort(s.revenue[m12])} выручки</div>
+    </div>
+  `;
+}
+
+function shade(hex,percent){
+  // hex like #a3e635
+  if(!hex.startsWith('#')) return hex;
+  const num = parseInt(hex.slice(1),16);
+  let r=(num>>16), g=(num>>8)&0xff, b=num&0xff;
+  r = Math.max(0,Math.min(255, r + Math.round(r*percent/100)));
+  g = Math.max(0,Math.min(255, g + Math.round(g*percent/100)));
+  b = Math.max(0,Math.min(255, b + Math.round(b*percent/100)));
+  return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+}
+
+/* ============================================================
+   LOSS
+   ============================================================ */
+function renderLoss(s, m12){
+  const lossTraf = s.traffic[m12] - CURRENT_TRAFFIC;
+  const lossLeads = s.leads[m12]; // без SEO — практически 0 лидов из органики выше базы
+  const lossRevenue = s.revenue[m12];
+  const lossClients = s.clients[m12];
+
+  document.getElementById('loss-headline').innerHTML = `= <b>${fmt.num(lossClients)} потенциальных клиента</b> и&nbsp;<b>${fmt.rubShort(lossRevenue)}</b> выручки`;
+  document.getElementById('loss-sub').innerHTML = `На&nbsp;12-м месяце сценария «${s.name}» сайт должен приводить ${fmt.num(s.traffic[m12])} визитов, из&nbsp;которых ${fmt.num(s.leads[m12])} становятся лидами и&nbsp;${fmt.num(lossClients)} — клиентами. Сегодня этой воронки нет: каждый месяц промедления — это упущенная выручка, которую&nbsp;уже невозможно «догнать».`;
+  document.getElementById('loss-traffic').textContent = '−'+fmt.num(lossTraf);
+  document.getElementById('loss-leads').textContent = '−'+fmt.num(lossLeads);
+  document.getElementById('loss-revenue').textContent = '−'+fmt.rubShort(lossRevenue);
+}
+
+/* ============================================================
+   CHART: REVENUE (4 сценария overlay)
+   ============================================================ */
+function renderChartRevenue(){
+  const ctx = document.getElementById('chart-revenue');
+  if(charts.revenue) charts.revenue.destroy();
+  const maxMonths = Math.max(...SCENARIOS.map(s=>s.months));
+  const labels = Array.from({length:maxMonths},(_,i)=>`${i+1} мес.`);
+  const datasets = SCENARIOS.map((s,i)=>{
+    const data = [...s.revenue];
+    // выровнять длину
+    while(data.length<maxMonths) data.push(null);
+    return {
+      label: s.name,
+      data: data,
+      borderColor: s.colorRaw,
+      backgroundColor: s.colorRaw + (i===currentScenario ? '55' : '15'),
+      borderWidth: i===currentScenario ? 3 : 1.5,
+      tension: 0.35,
+      fill: true,
+      pointRadius: 0,
+      pointHoverRadius: 6,
+      pointHoverBackgroundColor: s.colorRaw,
+      pointHoverBorderColor: '#07090d',
+      pointHoverBorderWidth: 2,
+    };
+  });
+
+  charts.revenue = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode:'index', intersect:false },
+      plugins: {
+        legend: { position:'top', labels:{color:'#94a0b3', usePointStyle:true, padding:18, font:{size:12}}},
+        tooltip: {
+          backgroundColor:'rgba(7,9,13,.95)',
+          borderColor:'rgba(255,255,255,.12)',
+          borderWidth:1,
+          padding:12,
+          titleColor:'#fff',
+          bodyColor:'#e7ecf3',
+          callbacks: {
+            label: (ctx) => `  ${ctx.dataset.label}: ${ctx.raw ? fmt.rubShort(ctx.raw) : '—'}`
+          }
+        }
+      },
+      scales: {
+        x: { grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#5b6678', font:{size:11}} },
+        y: {
+          grid:{color:'rgba(255,255,255,.04)'},
+          ticks:{
+            color:'#5b6678',
+            callback: (v)=> fmt.rubShort(v)
+          }
+        }
+      },
+      animation: { duration: 900, easing: 'easeOutCubic' },
+    }
+  });
+}
+
+/* ============================================================
+   CHART: LEADS (4 сценария overlay)
+   ============================================================ */
+function renderChartLeads(){
+  const ctx = document.getElementById('chart-leads');
+  if(!ctx) return;
+  if(charts.leads) charts.leads.destroy();
+  const maxMonths = Math.max(...SCENARIOS.map(s=>s.months));
+  const labels = Array.from({length:maxMonths},(_,i)=>`${i+1} мес.`);
+  const datasets = SCENARIOS.map((s,i)=>{
+    const data = [...s.leads];
+    while(data.length<maxMonths) data.push(null);
+    return {
+      label: s.name,
+      data: data,
+      borderColor: s.colorRaw,
+      backgroundColor: s.colorRaw + (i===currentScenario ? '55' : '15'),
+      borderWidth: i===currentScenario ? 3 : 1.5,
+      tension: 0.35,
+      fill: true,
+      pointRadius: 0,
+      pointHoverRadius: 6,
+      pointHoverBackgroundColor: s.colorRaw,
+      pointHoverBorderColor: '#07090d',
+      pointHoverBorderWidth: 2,
+      spanGaps: true,
+    };
+  });
+
+  charts.leads = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode:'index', intersect:false },
+      plugins: {
+        legend: { position:'top', labels:{color:'#94a0b3', usePointStyle:true, padding:18, font:{size:12}}},
+        tooltip: {
+          backgroundColor:'rgba(7,9,13,.95)',
+          borderColor:'rgba(255,255,255,.12)',
+          borderWidth:1,
+          padding:12,
+          titleColor:'#fff',
+          bodyColor:'#e7ecf3',
+          callbacks: {
+            label: (ctx) => `  ${ctx.dataset.label}: ${ctx.raw ? fmt.num(Math.round(ctx.raw))+' лидов' : '—'}`
+          }
+        }
+      },
+      scales: {
+        x: { grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#5b6678', font:{size:11}} },
+        y: {
+          grid:{color:'rgba(255,255,255,.04)'},
+          ticks:{
+            color:'#5b6678',
+            callback: (v)=> fmt.num(v)
+          }
+        }
+      },
+      animation: { duration: 900, easing: 'easeOutCubic' },
+    }
+  });
+}
+
+/* ============================================================
+   CHART: COST PER LEAD (выбранный сценарий)
+   ============================================================ */
+function renderChartCPL(){
+  const ctx = document.getElementById('chart-cpl');
+  if(charts.cpl) charts.cpl.destroy();
+  const s = SCENARIOS[currentScenario];
+  const labels = s.cpl.map((_,i)=>`${i+1} мес.`);
+  const data = s.cpl.map(v=>v); // первое значение null
+
+  charts.cpl = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Стоимость лида, ₽',
+        data,
+        borderColor: s.colorRaw,
+        backgroundColor: s.colorRaw + '33',
+        borderWidth: 3,
+        tension: 0.35,
+        fill: true,
+        pointBackgroundColor: s.colorRaw,
+        pointBorderColor: '#07090d',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        spanGaps: true,
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(7,9,13,.95)',
+          borderColor:'rgba(255,255,255,.12)', borderWidth:1, padding:12,
+          callbacks:{ label: (ctx)=> `  ${ctx.raw ? fmt.rub(ctx.raw) : '—'}` }
+        }
+      },
+      scales:{
+        x:{ grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#5b6678', font:{size:11}} },
+        y:{ grid:{color:'rgba(255,255,255,.04)'}, ticks:{color:'#5b6678', callback:v=>fmt.rubShort(v)} }
+      },
+      animation:{ duration: 900, easing:'easeOutCubic' }
+    }
+  });
+}
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+function renderTable(s){
+  const t = document.getElementById('fin-table');
+  const N = s.months;
+  const BREAKDOWN_N = Math.min(N, 15); // breakdown items активны только первые 15 мес.
+
+  const headers = ['<th>Показатель</th>'].concat(
+    Array.from({length:N},(_,i)=>`<th>${i+1} мес.</th>`)
+  ).join('');
+
+  const fmtCell = (v, kind='num') => {
+    if(v===null || v===undefined || (typeof v === 'number' && isNaN(v))) return '<td>—</td>';
+    if(kind==='rub')  return `<td>${fmt.num(Math.round(v))}</td>`;
+    if(kind==='pct')  return `<td class="hi">${fmt.pct(v)}</td>`;
+    if(kind==='dec1') return `<td>${fmt.num(v,1)}</td>`;
+    if(kind==='dec2') return `<td>${fmt.num(v,2)}</td>`;
+    return `<td>${fmt.num(Math.round(v))}</td>`;
+  };
+
+  const row = (label, arr, kind='num', cls='') => {
+    const cells = arr.map(v=>fmtCell(v, kind)).join('');
+    return `<tr class="${cls}"><td>${label}</td>${cells}</tr>`;
+  };
+
+  // Все ряды берём строго из данных Excel (без вычислений на лету)
+  // RUB на 1 клиента: 0 в мес 1, дальше константа (4200)
+  const rubPerClientFixed = Array.from({length:N},(_,i)=> i===0 ? 0 : s.rubPerClient);
+  const rubPerVisit = s.rubPerVisit;            // RUB за 1 визит — из Excel
+  const rubPerClientCost = s.rubPerClientCost;  // RUB за 1 клиента — из Excel
+  const leadsDisplay   = s.leads;               // в мес. 1 уже null
+  const clientsDisplay = s.clients;             // в мес. 1 уже null
+
+  // Breakdown — для стартового с 16-го мес. пусто
+  const breakdownRows = Object.entries(s.breakdown).map(([k,v])=>{
+    const arr = Array.from({length:N},(_,i)=> (i<BREAKDOWN_N ? v : null));
+    return row(k, arr, 'rub');
+  }).join('');
+
+  t.innerHTML = `
+    <thead><tr>${headers}</tr></thead>
+    <tbody>
+      <tr class="section-row"><td colspan="${N+1}">Выручка</td></tr>
+      ${row('ВСЕГО выручка', s.revenue, 'rub', 'total-row')}
+      ${row('RUB на 1 клиента', rubPerClientFixed, 'rub')}
+
+      <tr class="section-row"><td colspan="${N+1}">Вложения в&nbsp;сайт</td></tr>
+      ${breakdownRows}
+      ${row('Всего вложений в&nbsp;продвижение в&nbsp;интернет ресурса', s.investSeries, 'rub', 'total-row')}
+
+      ${row('Всего визитов', s.traffic, 'num')}
+      ${row('RUB за 1 визит', rubPerVisit, 'rub')}
+      ${row('Всего лидов', leadsDisplay, 'num')}
+      ${row('RUB за 1 лида', s.cpl, 'rub')}
+      ${row('Всего клиентов', clientsDisplay, 'dec1')}
+      ${row('RUB за 1 клиента', rubPerClientCost, 'rub')}
+
+      ${row('Валовая выручка', s.revenue, 'rub', 'total-row gross-row')}
+      ${row('Окупаемость%', s.roi, 'pct')}
+    </tbody>
+  `;
+}
+
+/* ============================================================
+   REVEAL ON SCROLL
+   ============================================================ */
+/* ============================================================
+   CASE MINI-CHARTS — реальные данные по Яндекс.Метрике
+   ============================================================ */
+const CASE_DATA = [
+  {
+    id: 'case-chart-1',
+    // GeekBrains: окт 21 → май 22 (8 точек)
+    labels: ['Окт 21','Ноя 21','Дек 21','Янв 22','Фев 22','Мар 22','Апр 22','Май 22'],
+    values: [1000, 35000, 47000, 53000, 55000, 56000, 73000, 91000],
+  },
+  {
+    id: 'case-chart-2',
+    // ЦТО: сен 22 → июл 23 (11 точек)
+    labels: ['Сен 22','Окт 22','Ноя 22','Дек 22','Янв 23','Фев 23','Мар 23','Апр 23','Май 23','Июн 23','Июл 23'],
+    values: [13000, 14500, 15500, 16000, 23000, 24000, 24500, 33000, 41000, 48000, 47000],
+  },
+  {
+    id: 'case-chart-3',
+    // Гендир: май → сен (5 точек)
+    labels: ['Май','Июн','Июл','Авг','Сен'],
+    values: [22000, 38000, 80000, 150000, 228000],
+  },
+  {
+    id: 'case-chart-4',
+    // МИИН: авг 20 → авг 21 (13 точек)
+    labels: ['Авг 20','Сен 20','Окт 20','Ноя 20','Дек 20','Янв 21','Фев 21','Мар 21','Апр 21','Май 21','Июн 21','Июл 21','Авг 21'],
+    values: [10000, 12000, 13000, 14000, 18000, 22000, 38000, 155000, 210000, 240000, 265000, 250000, 308000],
+  },
+];
+
+function renderCaseCharts(){
+  CASE_DATA.forEach(c => {
+    const ctx = document.getElementById(c.id);
+    if(!ctx) return;
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: c.labels,
+        datasets: [{
+          data: c.values,
+          borderColor: '#4ade80',
+          backgroundColor: 'rgba(74,222,128,.28)',
+          borderWidth: 2,
+          tension: 0.38,
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          pointHoverBackgroundColor: '#4ade80',
+          pointHoverBorderColor: '#07090d',
+          pointHoverBorderWidth: 2,
+        }]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        interaction:{ mode:'index', intersect:false },
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            backgroundColor:'rgba(7,9,13,.96)',
+            borderColor:'rgba(255,255,255,.12)', borderWidth:1, padding:10,
+            titleColor:'#fff', bodyColor:'#e7ecf3',
+            displayColors:false,
+            callbacks:{
+              label: (ctx)=> ' '+fmt.num(Math.round(ctx.raw))+' визитов'
+            }
+          }
+        },
+        scales:{
+          x:{ display:false },
+          y:{ display:false, beginAtZero:true }
+        },
+        animation:{ duration: 700, easing:'easeOutCubic' },
+        layout:{ padding:{ top:4, bottom:0, left:0, right:0 } }
+      }
+    });
+  });
+}
+
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el=>{ if(!el.classList.contains('in')) io.observe(el); });
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+/* Экранируем текстовые поля сценариев: рендер-функции вставляют их в разметку,
+   поэтому имена/подписи/метки расходов делаем безопасными до вставки. */
+function escText(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, (c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeScenarios(list){
+  return (list||[]).map((s)=>{
+    const out = Object.assign({}, s);
+    out.name = escText(s.name);
+    out.sub  = escText(s.sub);
+    if(s.breakdown){
+      const b = {};
+      Object.keys(s.breakdown).forEach((k)=>{ b[escText(k)] = s.breakdown[k]; });
+      out.breakdown = b;
+    }
+    return out;
+  });
+}
+
+/* Применяем данные отчёта (только входы) → пересчёт движком → рендер. */
+function applyReportData(report){
+  if(!report) return false;
+  try{
+    SCENARIOS = escapeScenarios(ReportEngine.buildScenarios(report));
+    CURRENT_TRAFFIC = (+report.currentTraffic) || CURRENT_TRAFFIC;
+    updateBranding(report);
+    return true;
+  }catch(e){ console.error('applyReportData failed', e); return false; }
+}
+
+/* Брендинг: только текст через textContent / DOM — без вставки разметки. */
+function updateBranding(report){
+  const c = (report.client && report.client.name) || '';
+  const title = report.title || 'Прогноз роста сайта';
+  try{ document.title = (title ? title+' • ' : '') + c; }catch(_){}
+  const setText = (id, val)=>{ const el=document.getElementById(id); if(el) el.textContent = val; };
+  setText('r-brand-client', c);
+  setText('r-footer-client', c);
+  if(report.eyebrow) setText('r-eyebrow', report.eyebrow);
+  const h1 = document.getElementById('r-h1');
+  if(h1){
+    h1.textContent = title + ' ';
+    const grad = document.createElement('span');
+    grad.className = 'grad';
+    grad.textContent = c;
+    h1.appendChild(grad);
+    h1.appendChild(document.createElement('br'));
+    h1.appendChild(document.createTextNode('в 4 сценариях продвижения'));
+  }
+}
+
+let _caseChartsDone = false;
+function renderAll(){
+  buildTabs();
+  renderCompareGrid();
+  if(!_caseChartsDone){ renderCaseCharts(); _caseChartsDone = true; }
+  setScenario(0);
+  initReveal();
+}
+
+/* Живой предпросмотр из редактора — только тот же origin. */
+window.addEventListener('message', (e)=>{
+  if(e.origin!==location.origin || !e.data || e.data.type!=='report:update') return;
+  applyReportData(e.data.report);
+  renderAll();
+});
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  let embedded = null;
+  const dataEl = document.getElementById('report-data');
+  if(dataEl){ try{ embedded = JSON.parse(dataEl.textContent); }catch(_){} }
+  applyReportData(embedded); // null → останутся дефолтные SCENARIOS шаблона
+  renderAll();
+  if(window.parent && window.parent!==window){ try{ window.parent.postMessage({type:'report:ready'}, location.origin); }catch(_){} }
+});
+</script>
+
+</body>
+</html>

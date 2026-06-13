@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Вход • Кабинет отчётов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body>
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
+    <form id="login-form" class="card fade-in" style="width:100%;max-width:390px;padding:30px;--glow:rgba(74,222,128,.35);">
+      <div class="brand" style="font-size:19px;margin-bottom:18px;">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#07090d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 5-7"/></svg></span>
+        Кабинет <span class="grad">отчётов</span>
+      </div>
+      <p style="color:var(--text-dim);font-size:13.5px;margin:0 0 22px;line-height:1.5;">Введите пароль, чтобы создавать и редактировать отчёты.</p>
+      <div class="field">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" autocomplete="current-password" autofocus />
+      </div>
+      <div id="error" style="color:#fca5a5;font-size:13px;min-height:18px;margin-bottom:12px;"></div>
+      <button type="submit" class="btn btn-primary" id="submit" style="width:100%;justify-content:center;">Войти</button>
+    </form>
+  </div>
+  <script src="/assets/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Нормализуем переводы строк: в репозитории — LF, на checkout — нативные для ОС.
+* text=auto
+*.js   text eol=lf
+*.css  text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
